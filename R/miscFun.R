@@ -101,3 +101,67 @@ rename <- function(x, old2new)
     names(x)[idx] <- old2new[ old[idx] ]
     x
 }
+
+## | PARAMETER  | MEANING                                       |
+## |------------+-----------------------------------------------|
+## | POS        | positions (integer vector)                    |
+## | START      | interval start positions (integer vector)     |
+## | END        | interval end positions (integer vector)       |
+## | ID         | interval ids                                  |
+## | BATCH.SIZE | number of positions to process simultaneously |
+##
+## For every position POS[i], return a comma-separated string of all
+## intervals ID[j] such that START[j] <= POS[i] <= END[j].  Process
+## BATCH.SIZE elements of POS at a time.
+match_intervals <- function(pos, start, end, id, batch.size = 1000L)
+{
+    stopifnot(length(start) > 0L)
+    stopifnot(length(end) == length(start))
+    stopifnot(length(id) == length(start))
+    stopifnot(length(pos) > 0L)
+    ## Remove intervals with missings.
+    is_missing <- is.na(start) | is.na(end) | is.na(id)
+    start <- start[!is_missing]
+    end   <- end  [!is_missing]
+    id    <- id   [!is_missing]
+    fun <- function(pos)
+    {
+        ## Create a matrix with length(START) rows and length(POS)
+        ## columns, where every row is equal to POS.  For example,
+        ## If pos = c(1, 2, 3, 4), and length(start) = 3, then
+        ##       |1 2 3 4|
+        ## mat = |1 2 3 4|
+        ##       |1 2 3 4|
+        mat <- matrix(pos, ncol = length(pos), nrow = length(start),
+                      byrow = TRUE)
+        ## Compare every column with interval start and end positions.
+        ## The result of the comparison is a matrix of the same
+        ## dimensions as MAT.
+        value <- start <= mat & mat <= end
+        ## For every column of VALUE, find the TRUE indexes.
+        idx_list <- lapply(split(value, col(value)), which)
+        ## For every position in POS, collapse the names of intervals
+        ## overlapping that positions into a comma-separated string.
+        sapply(idx_list,
+               function(x)
+                   paste(sort(unique(id[x])), collapse = ","))
+    }
+    result <- NULL
+    n <- length(pos)
+    if (n < batch.size) batch.size <- n
+    nbatch <- (n - 1L) %/% batch.size + 1L
+    last_batch_size <- n - (nbatch - 1L) * batch.size
+    pr("Number of batches: ", nbatch)
+    for (i in 1:nbatch) {
+        cat(i, "")
+        first <- 1L + (i - 1L) * batch.size
+        last <- if (i == nbatch) n else first + batch.size - 1L
+        x <- pos[seq(first, last)]
+        result <- c(list(fun(x)), result)
+    }
+    cat("\n\n")
+    v <- unname(do.call(c, rev(result)))
+    stopifnot(length(v) == length(pos))
+    v[is.na(pos)] <- NA
+    v
+}
