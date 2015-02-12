@@ -1,0 +1,103 @@
+## miscFun.R
+
+pr <- function(...)
+{
+    cat(..., "\n", sep = "")
+}
+
+exit <- function(status = 0L, ...)
+{
+    quit(save = "no", status = status, ...)
+}
+
+nuniq <- function(x)
+{
+    length(unique(x))
+}
+
+flatten_csv <- function(x, sep = ",", fixed = TRUE)
+{
+    unlist(strsplit(x, split = sep, fixed = fixed, perl = !fixed),
+           use.names = FALSE)
+}
+
+nfields <- function(file, sep = "\t")
+{
+    length(scan(file, what = character(), sep = sep, nlines = 1L,
+                quiet = TRUE))
+}
+
+chr2int <- function(x, prefix = NULL)
+{
+    crop_to_range <- function(x)
+    {
+        x[x < 1L | 25 < x] <- NA
+        x
+    }
+    if (typeof(x) == "integer")
+        return(crop_to_range(x))
+    if (!is.null(prefix))
+        x <- sub(prefix, "", x)
+    x <- toupper(x)
+    x[x == "X"]  <- "23"
+    x[x == "Y"]  <- "24"
+    x[x == "MT"] <- "25"
+    x[!grepl("^[1-9][0-9]?$", x)] <- NA
+    crop_to_range(as.integer(x))
+}
+
+int2chr <- function(x)
+{
+    if (typeof(x) != "integer")
+        stop("argument must be of type 'integer'")
+    x[x < 1L | 25 < x] <- NA
+    x[x == 23L] <- "X"
+    x[x == 24L] <- "Y"
+    x[x == 25L] <- "MT"
+    as.character(x)
+}
+
+colClasses <- function(fmt)
+{
+    fmt <- gsub(" ", "", fmt)
+    if (typeof(fmt) != "character" || is.na(fmt) ||
+            length(fmt) != 1L || nchar(fmt) == 0L) {
+        stop("fmt must be a non-empty, non-NA character vector of length 1")
+    }
+    v <- NULL
+    map <- c(N = "NULL",
+             c = "character",
+             i = "integer",
+             n = "numeric",
+             l = "logical",
+             r = "raw",
+             x = "complex")
+    lst <- flatten_csv(fmt, sep = "(?<=[[:alpha:]])", fixed = FALSE)
+    for (elt in lst) {
+        if (nchar(elt) > 1L) {
+            n <- as.integer(substr(elt, 1L, nchar(elt) - 1L))
+            what <- substr(elt, nchar(elt), nchar(elt))
+        }
+        else {
+            n <- 1L
+            what <- elt
+        }
+        v <- c(rep(map[what], n), v)
+    }
+    unname(rev(v))
+}
+
+ave2 <- function (x, factors, f, ...)
+{
+    g <- interaction(factors)
+    split(x, g) <- lapply(split(x, g), f, ...)
+    x
+}
+
+rename <- function(x, old2new)
+{
+    old <- names(x)
+    idx <- old %in% names(old2new)
+    names(x)[idx] <- old2new[ old[idx] ]
+    x
+}
