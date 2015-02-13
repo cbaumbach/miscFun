@@ -119,11 +119,15 @@ match_intervals <- function(pos, start, end, id, batch.size = 1000L)
     stopifnot(length(end) == length(start))
     stopifnot(length(id) == length(start))
     stopifnot(length(pos) > 0L)
+
     ## Remove intervals with missings.
     is_missing <- is.na(start) | is.na(end) | is.na(id)
     start <- start[!is_missing]
     end   <- end  [!is_missing]
     id    <- id   [!is_missing]
+    if (length(start) == 0L)
+        return(rep("", length(pos)))
+
     fun <- function(pos)
     {
         ## Create a matrix with length(START) rows and length(POS)

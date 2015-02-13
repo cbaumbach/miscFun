@@ -44,7 +44,15 @@ test_that("we ignore missing values in start, end, or id", {
 
     x3 <- match_intervals(pos, start, end, id)
 
+    pos   <- c(1L,2L,3L)
+    start <- c(NA,NA,NA,NA)                # no valid interval
+    end   <- c(1L,2L,5L,2L)
+    id    <- c(1L,2L,3L,4L)
+
+    x4 <- match_intervals(pos, start, end, id)
+
     expect_that(x1, equals(c("1,4", "4", "")))
     expect_that(x2, equals(c("1,4", "4", "")))
     expect_that(x3, equals(c("1,4", "4", "")))
+    expect_that(x4, equals(c("","","")))
 })
