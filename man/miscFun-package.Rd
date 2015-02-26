@@ -28,6 +28,7 @@ ave2             Apply function over level combinations of factors
 chr2int          Convert chromosome string to integer
 colClasses       Expand template into read.table's colClasses argument
 exit             Exit from running R job
+find_duplicates  Extract duplicated rows from data frame
 flatten_csv      Flatten a list of strings of comma-separated elements
 int2chr          Convert chromosome from integer to string
 match_intervals  Match positions to intervals
@@ -78,6 +79,19 @@ colClasses("3N2cin14Ni")
 \dontrun{
 exit(1L)
 }
+
+## find_duplicated
+d <- read.table(textConnection("\
+x y z
+1 2 3
+1 3 4
+1 2 4
+", "r"), header = TRUE)
+
+find_duplicates(d, "x")
+find_duplicates(d, "x", c("y", "z"))
+find_duplicates(d, c("x", "y"))
+find_duplicates(d, c("x", "z"))
 
 ## flatten_csv
 flatten_csv(c("1,2", "3,4,5"))
