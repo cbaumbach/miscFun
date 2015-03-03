@@ -174,6 +174,12 @@ find_duplicates <- function(d, cols, select = colnames(d), sep = "\t")
 {
     if (nrow(d) == 0L) return(d[,select])
 
+    if (any(! cols %in% colnames(d)))
+        stop("nonexistent variables in COLS")
+
+    if (any(! select %in% colnames(d)))
+        stop("nonexistent variables in SELECT")
+
     if (length(cols) == 1L) {
         x <- d[,cols]
         all_na <- is.na(d[,cols])
