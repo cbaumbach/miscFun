@@ -172,6 +172,8 @@ match_intervals <- function(pos, start, end, id, batch.size = 1000L)
 
 find_duplicates <- function(d, cols, select = colnames(d), sep = "\t")
 {
+    if (nrow(d) == 0L) return(d[,select])
+
     if (length(cols) == 1L) {
         x <- d[,cols]
         all_na <- is.na(d[,cols])
