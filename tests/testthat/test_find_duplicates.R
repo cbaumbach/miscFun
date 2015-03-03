@@ -55,3 +55,14 @@ NA 2 a
     expect_that(find_duplicates(d, c("x", "y")),      equals(d[0L,]))
     expect_that(find_duplicates(d, c("x", "z")),      equals(d[c(2L,3L),]))
 })
+
+test_that("we can deal with empty dataframes", {
+    d <- read.table(textConnection("\
+x y z
+", "r"), header = TRUE)
+
+    expect_that(find_duplicates(d, "x"),              equals(d[0L,]))
+    expect_that(find_duplicates(d, "x", c("y", "z")), equals(d[0L,c("y","z")]))
+    expect_that(find_duplicates(d, c("x", "y")),      equals(d[0L,]))
+    expect_that(find_duplicates(d, c("x", "z")),      equals(d[0L,]))
+})
