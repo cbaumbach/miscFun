@@ -113,7 +113,7 @@ rename <- function(x, old2new)
 ## For every position POS[i], return a comma-separated string of all
 ## intervals ID[j] such that START[j] <= POS[i] <= END[j].  Process
 ## BATCH.SIZE elements of POS at a time.
-match_intervals <- function(pos, start, end, id, batch.size = 1000L)
+match_intervals <- function(pos, start, end, id, batch.size = 1000L, quiet = FALSE)
 {
     stopifnot(length(start) > 0L)
     stopifnot(length(end) == length(start))
@@ -155,15 +155,18 @@ match_intervals <- function(pos, start, end, id, batch.size = 1000L)
     if (n < batch.size) batch.size <- n
     nbatch <- (n - 1L) %/% batch.size + 1L
     last_batch_size <- n - (nbatch - 1L) * batch.size
-    pr("Number of batches: ", nbatch)
+    if (!quiet)
+        pr("Number of batches: ", nbatch)
     for (i in 1:nbatch) {
-        cat(i, "")
+        if (!quiet)
+            cat(i, "")
         first <- 1L + (i - 1L) * batch.size
         last <- if (i == nbatch) n else first + batch.size - 1L
         x <- pos[seq(first, last)]
         result <- c(list(fun(x)), result)
     }
-    cat("\n\n")
+    if (!quiet)
+        cat("\n\n")
     v <- unname(do.call(c, rev(result)))
     stopifnot(length(v) == length(pos))
     v[is.na(pos)] <- NA

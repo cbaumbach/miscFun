@@ -9,7 +9,7 @@
   all intervals that a position falls into.
 }
 \usage{
-match_intervals(pos, start, end, id, batch.size = 1000L)
+match_intervals(pos, start, end, id, batch.size = 1000L, quiet = FALSE)
 }
 \arguments{
   \item{pos}{
@@ -26,6 +26,9 @@ match_intervals(pos, start, end, id, batch.size = 1000L)
   }
   \item{batch.size}{
     Number of positions in 'pos' that are processed at a time.
+  }
+  \item{quiet}{
+    Report progress if FALSE (default).
   }
 }
 \value{
