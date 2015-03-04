@@ -216,3 +216,8 @@ one_per_row <- function(d, cols, sep = ",")
         return(one_per_row(d, cols = cols[-1], sep = sep))
     d
 }
+
+one_per_element <- function(x, sep = ",", perl = FALSE)
+{
+    unname(unlist(strsplit(x, split = sep, fixed = !perl, perl = perl)))
+}
