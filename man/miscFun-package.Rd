@@ -36,6 +36,7 @@ nfields          Return number of columns in file
 nuniq            Return number of unique elements
 pr               Print message followed by newline
 rename           Change names of named list
+rev_map          Invert a map
 }
 }
 \author{
@@ -122,4 +123,8 @@ pr("Finished iteration ", 3, " of ", 10)
 x <- c(a = 1, b = 2, c = 3, `9` = 9)
 old2new <- c(a = "A", b = "B", c = NA, g = "G", a = "X", `9` = "nine")
 x <- rename(x, old2new)
+
+## rev_map
+map <- list(a = c("A","C"), b = c("B","C",NA))
+rev_map(map)
 }

@@ -193,3 +193,11 @@ find_duplicates <- function(d, cols, select = colnames(d), sep = "\t")
     }
     d[x %in% x[!all_na & duplicated(x)], select, drop = FALSE]
 }
+
+rev_map <- function(map)
+{
+    values <- unlist(map, use.names = FALSE)
+    times <- sapply(map, length)
+    names(values) <- rep(names(map), times = times)
+    lapply(split(names(values), values), sort)
+}
