@@ -34,6 +34,7 @@ int2chr          Convert chromosome from integer to string
 match_intervals  Match positions to intervals
 nfields          Return number of columns in file
 nuniq            Return number of unique elements
+one_per_row      One value per row
 pr               Print message followed by newline
 rename           Change names of named list
 rev_map          Invert a map
@@ -115,6 +116,15 @@ nf <- nfields("my_data.csv", sep = ",")
 
 ## nuniq
 nuniq(rep(LETTERS[1:5], 1:5))
+
+## one_per_row
+d <- read.table(textConnection("\
+x y z
+1 a,c A,C
+2 b,d B,D
+3 e E
+", "r"), header = TRUE, stringsAsFactors = FALSE)
+one_per_row(d, c("y","z"))
 
 ## pr
 pr("Finished iteration ", 3, " of ", 10)

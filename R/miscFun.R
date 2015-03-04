@@ -201,3 +201,18 @@ rev_map <- function(map)
     names(values) <- rep(names(map), times = times)
     lapply(split(names(values), values), sort)
 }
+
+one_per_row <- function(d, cols, sep = ",")
+{
+    if (length(cols) == 0L)
+        stop("COLS must be of length >= 1")
+    the_col <- cols[1L]
+    x <- strsplit(d[,the_col], sep)
+    times <- sapply(x, length)
+    d <- d[rep(seq_len(nrow(d)), times = times),]
+    d[the_col] <- unname(unlist(x))
+    rownames(d) <- NULL
+    if (length(cols) > 1)
+        return(one_per_row(d, cols = cols[-1], sep = sep))
+    d
+}
