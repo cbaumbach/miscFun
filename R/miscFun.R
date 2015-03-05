@@ -191,3 +191,19 @@ one_per_element <- function(x, sep = ",", perl = FALSE)
 {
     unname(unlist(strsplit(x, split = sep, fixed = !perl, perl = perl)))
 }
+
+all_neighbors <- function(f, x)
+{
+    force(x)
+    force(f)
+    ## If we get through the call to `Reduce' without an error being
+    ## thrown, all direct neighbors in `x', when compared by `f',
+    ## yield TRUE, that is, the predicate `f' holds throughout `x' and
+    ## we return TRUE.  Otherwise one pair of direct neighbors
+    ## compared FALSE, that is, the predicate `f' does not hold
+    ## throughout all of `x' and we return FALSE.
+    tryCatch({
+        Reduce(function(x,y) if (f(x,y)) y else stop(), x)
+        TRUE
+    }, error = function(e) FALSE)
+}
