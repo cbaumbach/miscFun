@@ -24,6 +24,7 @@ Built: \tab R 3.1.1; ; 2015-02-13 20:24:05 UTC; unix\cr
 
 Index:
 \preformatted{
+all_neighbors    Test whether binary predicate holds list elements
 ave2             Apply function over level combinations of factors
 colClasses       Expand template into read.table's colClasses argument
 exit             Exit from running R job
@@ -62,6 +63,16 @@ none
 }
 \examples{
 library(miscFun)
+
+## all_neighbors
+all_neighbors(identical, c(1,1,1))
+all_neighbors(identical, c(1,2,1))
+all_neighbors(identical, c(NA,NA,NA))
+all_neighbors(identical, c(1,NA,1))
+all_neighbors(function(x,y) TRUE, 1:5)
+all_neighbors(function(x,y) FALSE, c(1,1,1))
+all_neighbors(`<`, 1:10)
+all_neighbors(function(x,y) y - x == 1L, 1:10)
 
 ## ave2
 fact1 <- rep(1:2, each = 4L)
