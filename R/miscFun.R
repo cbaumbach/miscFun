@@ -192,10 +192,16 @@ one_per_element <- function(x, sep = ",", perl = FALSE)
     unname(unlist(strsplit(x, split = sep, fixed = !perl, perl = perl)))
 }
 
-all_neighbors <- function(f, x)
+all_neighbors <- function(f, ...)
 {
-    force(x)
     force(f)
+
+    lists <- list(...)
+    if (length(lists) == 1L)
+        x <- lists[[1L]]
+    else
+        x <- do.call(c, lists)
+
     ## If we get through the call to `Reduce' without an error being
     ## thrown, all direct neighbors in `x', when compared by `f',
     ## yield TRUE, that is, the predicate `f' holds throughout `x' and

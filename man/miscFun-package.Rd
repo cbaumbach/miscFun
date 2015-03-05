@@ -71,8 +71,9 @@ all_neighbors(identical, c(NA,NA,NA))
 all_neighbors(identical, c(1,NA,1))
 all_neighbors(function(x,y) TRUE, 1:5)
 all_neighbors(function(x,y) FALSE, c(1,1,1))
-all_neighbors(`<`, 1:10)
 all_neighbors(function(x,y) y - x == 1L, 1:10)
+all_neighbors(`<`, 1:10, 100:200)
+all_neighbors(`<=`, list(a = 1, b = 3), list(c = 3, d = 5))
 
 ## ave2
 fact1 <- rep(1:2, each = 4L)
