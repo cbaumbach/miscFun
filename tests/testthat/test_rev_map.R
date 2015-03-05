@@ -21,3 +21,14 @@ test_that("missing values are dropped", {
     expect_that(rev_map(map), equals(
         list(A = "a", B = "b", C = c("a","b"))))
 })
+
+test_that("the reverse of the reverse of a map without missing values is the map itself", {
+    map <- list(a = c("A","C"), b = c("B","C"))
+    rrmap <- rev_map(rev_map(map))
+
+    ## Sort elements.
+    map   <- lapply(map, sort)
+    rrmap <- lapply(rrmap, sort)
+
+    expect_that(rrmap, equals(map))
+})
