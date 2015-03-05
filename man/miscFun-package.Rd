@@ -25,12 +25,10 @@ Built: \tab R 3.1.1; ; 2015-02-13 20:24:05 UTC; unix\cr
 Index:
 \preformatted{
 ave2             Apply function over level combinations of factors
-chr2int          Convert chromosome string to integer
 colClasses       Expand template into read.table's colClasses argument
 exit             Exit from running R job
 find_duplicates  Extract duplicated rows from data frame
 flatten_csv      Flatten a list of strings of comma-separated elements
-int2chr          Convert chromosome from integer to string
 match_intervals  Match positions to intervals
 nfields          Return number of columns in file
 nuniq            Return number of unique elements
@@ -71,10 +69,6 @@ fact2 <- rep(c("A","B"), length.out = 8L)
 x <- 1:8
 ave2(x, list(fact1, fact2), function(x, k) k * sum(x), 3)
 
-## chr2int
-chr2int(c("1", "MT", "X", "Y"))
-chr2int(c("chr1", "chrMT", "chrX", "chrY"), prefix = "chr")
-
 ## colClasses
 colClasses("3N2cin14Ni")
 
@@ -99,9 +93,6 @@ find_duplicates(d, c("x", "z"))
 ## flatten_csv
 flatten_csv(c("1,2", "3,4,5"))
 flatten_csv(c("a1b", "c23d"), sep = "\\\\d+", fixed = FALSE)
-
-## int2chr
-int2chr(c(1:3, 23:25))
 
 ## match_intervals
 pos   <- c(1L,2L,3L)
