@@ -27,6 +27,7 @@ Index:
 all_neighbors    Test whether binary predicate holds list elements
 ave2             Apply function over level combinations of factors
 colClasses       Expand template into read.table's colClasses argument
+double_quote     Surround string(s) with double quotes
 exit             Exit from running R job
 find_duplicates  Extract duplicated rows from data frame
 flatten_csv      Flatten a list of strings of comma-separated elements
@@ -39,6 +40,7 @@ pr               Print message followed by newline
 pr1              Print message without newline
 rename           Change names of named list
 rev_map          Invert a map
+single_quote     Surround string(s) with single quotes
 }
 }
 \author{
@@ -84,6 +86,10 @@ ave2(x, list(fact1, fact2), function(x, k) k * sum(x), 3)
 
 ## colClasses
 colClasses("3N2cin14Ni")
+
+## double_quote
+double_quote(c("He said \"It's all the same.\"",
+               "He said 'It's all the same.'"))
 
 ## exit
 \dontrun{
@@ -152,4 +158,8 @@ x <- rename(x, old2new)
 ## rev_map
 map <- list(a = c("A","C"), b = c("B","C",NA))
 rev_map(map)
+
+## single_quote
+single_quote(c("He said \"It's all the same.\"",
+               "He said 'It's all the same.'"))
 }
