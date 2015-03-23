@@ -218,3 +218,15 @@ all_neighbors <- function(f, ...)
         TRUE
     }, error = function(e) FALSE)
 }
+
+double_quote <- function(x)
+{
+    x <- gsub("\"", "\\\"", x, fixed = TRUE)
+    paste0("\"", x, "\"")
+}
+
+single_quote <- function(x)
+{
+    x <- gsub("'", "\\\'", x, fixed = TRUE)
+    paste0("'", x, "'")
+}
