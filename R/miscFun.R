@@ -5,6 +5,11 @@ pr <- function(...)
     cat(..., "\n", sep = "")
 }
 
+pr1 <- function(...)
+{
+    cat(..., sep = "")
+}
+
 exit <- function(status = 0L, ...)
 {
     quit(save = "no", status = status, ...)
