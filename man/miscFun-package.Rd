@@ -36,6 +36,7 @@ nuniq            Return number of unique elements
 one_per_element  One value per vector element
 one_per_row      One value per row
 pr               Print message followed by newline
+pr1              Print message without newline
 rename           Change names of named list
 rev_map          Invert a map
 }
@@ -139,6 +140,9 @@ one_per_row(d, c("y","z"))
 
 ## pr
 pr("Finished iteration ", 3, " of ", 10)
+
+## pr1
+pr1("Finished iteration ", 3, " of ", 10, "\n")
 
 ## rename
 x <- c(a = 1, b = 2, c = 3, `9` = 9)
