@@ -235,3 +235,29 @@ noop <- function(...)
 {
     invisible(NULL)
 }
+
+make_observer <- function()
+{
+    e <- new.env()
+
+    function (x, show = FALSE)
+    {
+        if (show)
+            return(ls(envir = e))
+
+        if (length(x) != 1L
+            || length(class(x)) != 1L
+            || ! class(x) %in% c("character", "numeric", "integer"))
+            stop("Argument must be of length 1 and ",
+                 "class \"character\", \"numeric\", or \"integer\".")
+
+        if (! class(x) == "character")
+            x <- as.character(x)
+
+        if (exists(x, e, inherits = FALSE))
+            return(TRUE)
+
+        assign(x, TRUE, envir = e, inherits = FALSE)
+        return(FALSE)
+    }
+}
