@@ -1,0 +1,31 @@
+\name{make_observer}
+\alias{make_observer}
+\docType{package}
+\title{
+  Create function for keeping track of values
+}
+\description{
+  Create function for keeping track of values
+}
+\usage{
+make_observer()
+}
+\value{
+  A function with signature `function(x, show = FALSE)'.  If `show' is
+  "TRUE", the function returns a character vector with all values
+  (coerced to "character") that it has `seen' so far.  If `show' is
+  "FALSE" and argument `x' was `seen' before, the function returns
+  "TRUE", otherwise it returns "FALSE".  The argument `x' must be a of
+  length 1 and class "character", "numeric", or "integer".  If the
+  argument is of class "numeric" or "integer", conversion to class
+  "character" is done via \code{as.character}.  The order of element in
+  the list returned if `show' is "TRUE" is not guaranteed to be the same
+  order in which the values were `seen'.
+}
+\examples{
+library(miscFun)
+
+seen <- make_observer()
+for (i in c(1:5, 1:5)) pr("Seen ", i, " -> ", seen(i))
+seen(show = TRUE)
+}
