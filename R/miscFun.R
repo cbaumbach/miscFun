@@ -230,3 +230,8 @@ single_quote <- function(x)
     x <- gsub("'", "\\\'", x, fixed = TRUE)
     paste0("'", x, "'")
 }
+
+noop <- function(...)
+{
+    invisible(NULL)
+}
