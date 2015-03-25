@@ -1,14 +1,17 @@
 \name{pr}
 \alias{pr}
+\alias{pr1}
 \docType{package}
 \title{
-  Print message followed by newline
+  Print message
 }
 \description{
-  Print message followed by newline.
+  Print a message: \code{pr} automatically add a newline at the end
+  while \code{pr1} doesn't.
 }
 \usage{
 pr(...)
+pr1(...)
 }
 \arguments{
   \item{...}{
@@ -16,10 +19,17 @@ pr(...)
   }
 }
 \value{
-  Prints arguments pasted together and followed by newline.
+  Prints arguments pasted together and, in case of \code{pr}, followed
+  by newline.
+}
+\seealso{
+  \code{\link[base]{cat}}
+  \code{\link[base]{writeLines}}
 }
 \examples{
 library(miscFun)
 
-pr("Finished iteration ", 3, " of ", 10)
+pr("Finished iteration ", 3, " out of ", 10)
+pr1("Finished iteration ", 3, " out of ")
+pr(10)
 }
