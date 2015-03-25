@@ -309,3 +309,55 @@ group_words <- function(x, n, split = "\\s+", perl = TRUE,
 
     lapply(strsplit(x, split, fixed, perl), f)
 }
+
+wrap_lines <- function(x, n, sep = "\n", max_lines = Inf, dots = "...",
+                       hard = FALSE, tol = if (hard) 0L else 3L)
+{
+    if (nchar(dots) >= n)
+        stop("DOTS must have < N characters.")
+
+    ## Split into chunks of words.
+    if (hard)
+        y <- group_words(x, n, split = NULL, sep = "")
+    else
+        y <- group_words(x, n, split = "\\s+|(?<=-)", special = "-$")
+
+    f <- function(lines)
+    {
+        if (length(lines) <= 1L) return(lines)
+
+        if (tol > 0L) {
+            ## Merge very short lines into previous line.
+            g <- function(acc, line)
+            {
+                hyphen <- grepl("-$", acc[1L])
+                sep <- if (hyphen) "" else " "
+
+                ## Join 1st and 2nd line if 1st line was very short.
+                if (length(acc) == 1L && nchar(acc) <= tol)
+                    paste(acc, line, sep = sep)
+                ## Join very short line with previous line unless that
+                ## would make the previous line longer than n + tol.
+                else if (nchar(line) <= tol
+                         && nchar(acc[1L]) <= n + tol - nchar(line)) {
+                    acc[1L] <- paste(acc[1L], line, sep = sep)
+                    acc
+                }
+                ## Start a new line.
+                else
+                    c(line, acc)
+            }
+            lines <- rev(Reduce(g, lines))
+        }
+
+        if (length(lines) > max_lines) { # too many lines
+            ## Keep only the first max_lines lines.
+            lines <- lines[seq_len(max_lines)]
+            ## Insert dots in last line.
+            substr(lines[max_lines], n - nchar(dots), n) <- dots
+        }
+        paste(lines, collapse = sep)
+    }
+
+    sapply(y, f)
+}
