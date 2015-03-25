@@ -261,3 +261,51 @@ make_observer <- function()
         return(FALSE)
     }
 }
+
+group_words <- function(x, n, split = "\\s+", perl = TRUE,
+                        fixed = !perl, sep = " ", special = NULL,
+                        special_sep = "", trim = TRUE)
+{
+    if (n < 1L)
+        stop("N must be an integer >= 1.")
+
+    if (!fixed && !perl)
+        stop("Either FIXED or PERL must be TRUE.")
+
+    if (fixed && perl) {
+        fixed <- FALSE
+        warning("FIXED conflicts with PERL: setting FIXED to FALSE.")
+    }
+
+    f <- function(xs)
+    {
+        lines <- character()
+
+        if (length(xs) <= 1L)
+            return(lines)               # nothing to be done
+
+        acc <- xs[1L]
+        is_special <- FALSE             # TRUE if last chunk special
+        for (x in xs[-1L]) {
+            k <- nchar(acc) + nchar(x) + nchar(sep)
+            if (k <= n)              # some space left on current line
+                acc <- paste(acc, x,
+                             sep = if (is_special) special_sep
+                                   else sep)
+            else {                      # no space on current line
+                lines <- c(acc, lines)  # save current line
+                acc <- x                # start new line
+            }
+            if (!is.null(special))
+                is_special <- grepl(special, x, perl = perl)
+        }
+        lines <- rev(c(acc, lines))     # add current line and reverse
+
+        if (trim)
+            sub("\\s*(.*?)\\s*$", "\\1", lines, perl = TRUE) # trim whitespace
+        else
+            lines
+    }
+
+    lapply(strsplit(x, split, fixed, perl), f)
+}
