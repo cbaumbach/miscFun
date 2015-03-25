@@ -264,7 +264,9 @@ make_observer <- function()
 
 group_words <- function(x, n, split = "\\s+", perl = TRUE,
                         fixed = !perl, sep = " ", special = NULL,
-                        special_sep = "", trim = TRUE)
+                        special_sep = "", trim_leading = TRUE,
+                        trim_trailing = trim_leading, tol = 0L,
+                        punct = TRUE)
 {
     if (n < 1L)
         stop("N must be an integer >= 1.")
@@ -279,32 +281,38 @@ group_words <- function(x, n, split = "\\s+", perl = TRUE,
 
     f <- function(xs)
     {
-        lines <- character()
-
-        if (length(xs) <= 1L)
-            return(lines)               # nothing to be done
-
-        acc <- xs[1L]
-        is_special <- FALSE             # TRUE if last chunk special
-        for (x in xs[-1L]) {
-            k <- nchar(acc) + nchar(x) + nchar(sep)
-            if (k <= n)              # some space left on current line
-                acc <- paste(acc, x,
-                             sep = if (is_special) special_sep
-                                   else sep)
-            else {                      # no space on current line
-                lines <- c(acc, lines)  # save current line
-                acc <- x                # start new line
-            }
+        g <- function(acc, word)
+        {
+            ## Check if current line ends in a special way.
+            is_special <- FALSE
             if (!is.null(special))
-                is_special <- grepl(special, x, perl = perl)
-        }
-        lines <- rev(c(acc, lines))     # add current line and reverse
+                is_special <- grepl(special, acc[1L])
 
-        if (trim)
-            sub("\\s*(.*?)\\s*$", "\\1", lines, perl = TRUE) # trim whitespace
-        else
-            lines
+            ## Current chunk has enough space for word.
+            if (nchar(acc[1L]) + nchar(word) + nchar(sep) <= n + tol)
+                ## Add word to current chunk.
+                acc[1L] <- paste(acc[1L], word,
+                                 sep = if (is_special) special_sep
+                                       else sep)
+            ## Add punctuation sign to previous chunk.
+            else if (grepl("^[[:punct:]]$", word))
+                acc[1L] <- paste(acc[1L], word, sep = "")
+            ## Start new chunk.
+            else {
+                if (trim_leading)
+                    word <- sub("^\\s+", "", word, perl = TRUE)
+                acc <- c(word, acc)
+            }
+
+            acc
+        }
+        xs <- rev(Reduce(g, xs))
+
+        ## Trim whitespace.
+        if (trim_trailing)
+            xs <- sub("\\s+$", "", xs, perl = TRUE)
+
+        xs
     }
 
     lapply(strsplit(x, split, fixed, perl), f)
@@ -316,39 +324,18 @@ wrap_lines <- function(x, n, sep = "\n", max_lines = Inf, dots = "...",
     if (nchar(dots) >= n)
         stop("DOTS must have < N characters.")
 
-    ## Split into chunks of words.
+    ## Split into lines.
     if (hard)
-        y <- group_words(x, n, split = NULL, sep = "")
+        y <- group_words(x, n, split = NULL, sep = "", tol = tol)
     else
-        y <- group_words(x, n, split = "\\s+|(?<=-)", special = "-$")
+        y <- group_words(x, n, split = "\\s+|(?<=-)", special = "-$",
+                         tol = tol)
 
+    ## Truncate to at most `max_lines' lines and paste together using
+    ## `sep' as line separator.
     f <- function(lines)
     {
         if (length(lines) <= 1L) return(lines)
-
-        if (tol > 0L) {
-            ## Merge very short lines into previous line.
-            g <- function(acc, line)
-            {
-                hyphen <- grepl("-$", acc[1L])
-                sep <- if (hyphen) "" else " "
-
-                ## Join 1st and 2nd line if 1st line was very short.
-                if (length(acc) == 1L && nchar(acc) <= tol)
-                    paste(acc, line, sep = sep)
-                ## Join very short line with previous line unless that
-                ## would make the previous line longer than n + tol.
-                else if (nchar(line) <= tol
-                         && nchar(acc[1L]) <= n + tol - nchar(line)) {
-                    acc[1L] <- paste(acc[1L], line, sep = sep)
-                    acc
-                }
-                ## Start a new line.
-                else
-                    c(line, acc)
-            }
-            lines <- rev(Reduce(g, lines))
-        }
 
         if (length(lines) > max_lines) { # too many lines
             ## Keep only the first max_lines lines.
