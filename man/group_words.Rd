@@ -9,7 +9,8 @@
 }
 \usage{
 group_words(x, n, split = "\\\\s+", perl = TRUE, fixed = !perl, sep = " ",
-            special = NULL, special_sep = "", trim = TRUE)
+            special = NULL, special_sep = "", trim_leading = TRUE,
+            trim_trailing = trim_leading, tol = 0L, punct = TRUE)
 }
 \arguments{
   \item{x}{
@@ -39,9 +40,19 @@ group_words(x, n, split = "\\\\s+", perl = TRUE, fixed = !perl, sep = " ",
   \item{special_sep}{
     Separator used to combine two words if the first matches `special'.
   }
-  \item{trim}{
-    TRUE if whitespace ("\\\\s+") should be remove at start and end of
-    chunks.
+  \item{trim_leading}{
+    If "TRUE", leading whitespace will be removed from chunks.
+  }
+  \item{trim_trailing}{
+    If "TRUE", trailing whitespace will be removed from chunks.
+  }
+  \item{tol}{
+    Chunks will be allowed to be `tol' characters longer than `n' if
+    that makes their lengths more even in overall.
+  }
+  \item{punct}{
+    If "TRUE", words consisting of a single punctuation mark will always
+    be merged to the previous chunk.
   }
 }
 \details{
@@ -53,8 +64,9 @@ group_words(x, n, split = "\\\\s+", perl = TRUE, fixed = !perl, sep = " ",
 }
 \value{
   A list of character vectors where every character vector contains
-  one or more chunks of words.  Every chunk has length <= `n' unless it
-  contains a single word of length > `n'.
+  one or more chunks of words.  Every chunk contains from 1 to `n + tol'
+  characters unless it contains a single word of length > `n' in which
+  case its length is the length of the word.
 }
 \seealso{
   \code{\link{wrap_lines}}
