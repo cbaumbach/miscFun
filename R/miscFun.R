@@ -341,7 +341,9 @@ wrap_lines <- function(x, n, sep = "\n", max_lines = Inf, dots = "...",
             ## Keep only the first max_lines lines.
             lines <- lines[seq_len(max_lines)]
             ## Insert dots in last line.
-            substr(lines[max_lines], n - nchar(dots), n) <- dots
+            last <- lines[max_lines]
+            substr(last, n - nchar(dots) + 1L, n) <- dots
+            lines[max_lines] <- substr(last, 1L, n)
         }
         paste(lines, collapse = sep)
     }
