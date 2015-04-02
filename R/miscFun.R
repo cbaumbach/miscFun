@@ -15,6 +15,21 @@ exit <- function(status = 0L, ...)
     quit(save = "no", status = status, ...)
 }
 
+flip <- function(f)
+{
+    args <- formals(f)
+
+    if (is.null(args) || length(args) == 1L && names(args) != "...")
+        stop("Function must take at least 2 arguments.")
+
+    if ("..." %in% names(formals(f))[1:2])
+        stop("Function must not have \"...\" as 1st or 2nd argument.")
+
+    ## Swap 1st and 2nd argument.
+    names(formals(f))[1:2] <- names(formals(f))[2:1]
+    f
+}
+
 nuniq <- function(x)
 {
     length(unique(x))

@@ -31,6 +31,7 @@ double_quote     Surround string(s) with double quotes
 exit             Exit from running R job
 find_duplicates  Extract duplicated rows from data frame
 flatten_csv      Flatten a list of strings of comma-separated elements
+flip             Flip 1st and 2nd argument of a function
 match_intervals  Match positions to intervals
 nfields          Return number of columns in file
 nuniq            Return number of unique elements
@@ -112,6 +113,13 @@ find_duplicates(d, c("x", "z"))
 ## flatten_csv
 flatten_csv(c("1,2", "3,4,5"))
 flatten_csv(c("a1b", "c23d"), sep = "\\\\d+", fixed = FALSE)
+
+## flip
+f <- function(x, y, z) x + 2*y + 3*z
+g <- flip(f)
+f(1, 2, 3) == 14
+g(1, 2, 3) == 13
+g(z = 3, 1, 2) == 13
 
 ## match_intervals
 pos   <- c(1L,2L,3L)
