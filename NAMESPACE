@@ -1,3 +1,5 @@
+importFrom(MASS, glm.nb, rnegbin)
+
 export("all_neighbors",
        "ave2",
        "colClasses",
@@ -6,6 +8,7 @@ export("all_neighbors",
        "find_duplicates",
        "flatten_csv",
        "group_words",
+       "m3reg",
        "make_observer",
        "match_intervals",
        "nfields",
@@ -18,4 +21,5 @@ export("all_neighbors",
        "rename",
        "rev_map",
        "single_quote",
+       "summary.m3reg",
        "wrap_lines")
