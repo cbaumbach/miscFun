@@ -44,6 +44,7 @@ read.tables      Read and concatenate tables
 rename           Change names of named list
 rev_map          Invert a map
 single_quote     Surround string(s) with single quotes
+wait_until       Suspend execution until deadline
 }
 }
 \author{
@@ -181,4 +182,9 @@ rev_map(map)
 ## single_quote
 single_quote(c("He said \"It's all the same.\"",
                "He said 'It's all the same.'"))
+
+## wait_until
+\dontrun{
+wait_until("26-4-34 17:03")
+}
 }

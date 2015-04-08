@@ -408,3 +408,29 @@ read.tables <- function(files, sep = NULL, ncore = 1L, header = TRUE,
         files, f, mc.preschedule = FALSE, mc.cores = ncore,
         mc.silent = FALSE))
 }
+
+wait_until <- function(date_string)
+{
+    deadline <- strptime(date_string, format = "%d-%m-%y %H:%M")
+
+    if (is.na(deadline))
+        stop("Unable to convert to date: ", date_string)
+
+    ## Check whether deadline has arrived.
+    past_deadline <- function()
+    {
+        difftime(Sys.time(), deadline) > 0
+    }
+
+    if (past_deadline())
+        stop("We're already past the deadline.")
+
+    cat("Waiting until", date_string, "")
+
+    ## Wait until deadline.
+    while (!past_deadline()) {
+        Sys.sleep(60)
+        cat(".")
+    }
+    pr()
+}
