@@ -365,3 +365,8 @@ wrap_lines <- function(x, n, sep = "\n", max_lines = Inf, dots = "...",
 
     sapply(y, f)
 }
+
+is.directory <- function(fs)
+{
+    file.info(fs)$isdir
+}
