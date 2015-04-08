@@ -86,10 +86,10 @@ ave2 <- function (x, factors, f, ...)
 
 rename <- function(x, old2new)
 {
-    old <- names(x)
-    idx <- old %in% names(old2new)
-    names(x)[idx] <- old2new[ old[idx] ]
-    x
+    old_names <- new_names <- names(x)
+    idx <- old_names %in% names(old2new)
+    new_names[idx] <- old2new[ old_names[idx] ]
+    new_names
 }
 
 ## | PARAMETER  | MEANING                                       |
