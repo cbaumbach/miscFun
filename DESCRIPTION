@@ -5,6 +5,7 @@ Version: 1.0
 Date: 2015-02-12
 Author: Clemens Baumbach
 Maintainer: Clemens Baumbach <clemens.baumbach@helmholtz-muenchen.de>
+Imports: parallel
 Suggests: testthat
 Description: This is a collection of functions which, if not for this
              package, I would have to rewrite or copy/paste for almost

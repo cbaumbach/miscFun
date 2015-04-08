@@ -40,6 +40,7 @@ one_per_element  One value per vector element
 one_per_row      One value per row
 pr               Print message followed by newline
 pr1              Print message without newline
+read.tables      Read and concatenate tables
 rename           Change names of named list
 rev_map          Invert a map
 single_quote     Surround string(s) with single quotes
@@ -161,6 +162,12 @@ pr("Finished iteration ", 3, " of ", 10)
 
 ## pr1
 pr1("Finished iteration ", 3, " of ", 10, "\n")
+
+## read.tables
+
+\dontrun{
+read.tables(paste0("table", 1:100, ".txt"), ncore = 10L)
+}
 
 ## rename
 x <- c(a = 1, b = 2, c = 3, `9` = 9)

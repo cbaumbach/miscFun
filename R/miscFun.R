@@ -370,3 +370,41 @@ is.directory <- function(fs)
 {
     file.info(fs)$isdir
 }
+
+read.tables <- function(files, sep = NULL, ncore = 1L, header = TRUE,
+                        colClasses = "character", verbose = TRUE,
+                        check.names = FALSE, ...)
+{
+    ## Drop empty files.
+    files <- Filter(function(x) file.info(x)$size > 0L, files)
+
+    stopifnot(length(files) > 0L,
+              all(vapply(files, file.exists, logical(1L))))
+
+    ## Determine field separator from 1st line of 1st (non-empty) file.
+    if (is.null(sep)) {
+        seps <- c("\t", ",", ";", " ")  # list of candidates
+        hits <- vapply(seps, grepl, logical(1L),
+                       readLines(files[1L], n = 1L), fixed = TRUE)
+
+        ## None of the candidates matched.
+        if (!any(hits))
+            stop("Unable to figure out field separator in ", files[1L])
+
+        ## Select the first matching candidate as field separator.
+        sep <- seps[which.max(hits)]
+    }
+
+    f <- function(filename)
+    {
+        if (verbose)
+            pr("Reading ", filename)
+
+        read.table(filename, sep = sep, colClasses = colClasses,
+                   header = header, ...)
+    }
+
+    do.call(rbind, parallel::mclapply(
+        files, f, mc.preschedule = FALSE, mc.cores = ncore,
+        mc.silent = FALSE))
+}
