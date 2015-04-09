@@ -480,10 +480,15 @@ match1of <- function(candidates, x, ...)
     if (length(x) == 0L || !is.character(x))
         stop("`x' must be a character vector of length >= 1.")
 
-    ## Create a logical length(x)-by-length(candidates) matrix such
-    ## that the entry in row i and column j is TRUE iff candidate[j]
-    ## matches in x[i].
+    ## If length(x) > 1, create a length(x)-by-length(candidates)
+    ## matrix such that the entry in row i and column j is TRUE iff
+    ## candidate[j] matches in x[i].  If length(x) == 1, return a
+    ## logical vector of the same length as `candidates'.
     hit_matrix <- vapply(candidates, grepl, logical(length(x)), x, ...)
+
+    ## Convert `hit_matrix' to matrix, if necessary.
+    if (length(x) == 1L)
+        hit_matrix <- t(as.matrix(hit_matrix))
 
     apply(hit_matrix, 1L, function(hits)
     {
