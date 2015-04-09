@@ -475,3 +475,23 @@ wait_until <- function(date_string)
     }
     pr()
 }
+
+match1of <- function(candidates, x, ...)
+{
+    if (length(candidates) == 0L || !is.character(candidates))
+        stop("`candidates' must be a character vector of length >= 1.")
+
+    if (length(x) == 0L || !is.character(x))
+        stop("`x' must be a character vector of length >= 1.")
+
+    ## Create a logical length(x)-by-length(candidates) matrix such
+    ## that the entry in row i and column j is TRUE iff candidate[j]
+    ## matches in x[i].
+    hit_matrix <- vapply(candidates, grepl, logical(length(x)), x, ...)
+
+    apply(hit_matrix, 1L, function(hits)
+    {
+        if (!any(hits)) NA_character_
+        else            candidates[which.max(hits)]
+    })
+}

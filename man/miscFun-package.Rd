@@ -33,6 +33,7 @@ find_duplicates  Extract duplicated rows from data frame
 flatten_csv      Flatten a list of strings of comma-separated elements
 flip             Flip 1st and 2nd argument of a function
 is.directory     Test for directory
+match1of         Find first matching candidate
 match_intervals  Match positions to intervals
 nfields          Return number of columns in file
 nuniq            Return number of unique elements
@@ -126,6 +127,9 @@ g(z = 3, 1, 2) == 13
 
 ## is.directory
 is.directory(".")
+
+## match1of
+match1of(c("foo", "bar", "xxx", "baz", "quux"), c("foo", "bar", "quux"))
 
 ## match_intervals
 pos   <- c(1L,2L,3L)
