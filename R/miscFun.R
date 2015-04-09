@@ -422,15 +422,11 @@ read.tables <- function(files, sep = NULL, ncore = 1L, header = TRUE,
                 break            # found a non-comment, non-empty line
         }
 
-        seps <- c("\t", ",", ";", " ")  # list of candidates
-        hits <- vapply(seps, grepl, logical(1L), line, fixed = TRUE)
+        sep <- match1of(c("\t", ",", ";", " "), # candidate seps
+                        line, fixed = TRUE)
 
-        ## None of the candidates matched.
-        if (!any(hits))
+        if (is.na(sep))
             stop("Unable to figure out field separator in ", files[i])
-
-        ## Select the first matching candidate as field separator.
-        sep <- seps[which.max(hits)]
     }
 
     ## =================================================================
