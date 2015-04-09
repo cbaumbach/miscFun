@@ -22,4 +22,7 @@ export("all_neighbors",
        "rename",
        "rev_map",
        "single_quote",
+       "submatch",
+       "[.submatch",
+       "print.submatch",
        "wrap_lines")

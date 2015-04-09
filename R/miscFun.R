@@ -496,3 +496,77 @@ match1of <- function(candidates, x, ...)
         else            candidates[which.max(hits)]
     })
 }
+
+submatch <- function(pattern, xs)
+{
+    ## =================================================================
+    ## Determine number of submatches.
+    ## =================================================================
+
+    ## Remove any character classes since parentheses in character
+    ## classes don't create submatches.
+    y <- gsub("\\[.*?\\]", "", pattern)
+
+    ## Remove any escaped opening parentheses since those also cannot
+    ## create submatches.
+    y <- gsub("\\\\\\(", "", y)
+
+    ## Count open parentheses.
+    nsubmatch <- nchar(gsub("[^(]", "", y))
+
+    if (nsubmatch == 0L)
+        stop("`pattern' must contain a parenthesized subexpression.")
+
+    ## =================================================================
+    ## Extract submatches.
+    ## =================================================================
+    matches <- regexec(pattern, xs)
+    lengths <- lapply(matches, attr, "match.length")
+
+    extract1 <- function(s, pos, len)
+    {
+        vapply(seq_along(pos)[-1L],
+               function(i) substr(s, pos[i], pos[i] + len[i] - 1L),
+               character(1L))
+    }
+
+    z <- unname(Map(extract1, xs, matches, lengths))
+
+    ## =================================================================
+    ## Fill non-matches with `nsubmatch' NAs.
+    ## =================================================================
+    z <- lapply(z,
+                function(x)
+                {
+                    if (length(x) == 0L)
+                        rep(NA_character_, nsubmatch)
+                    else
+                        x
+                })
+    ## =================================================================
+    ## Make object an instance of "submatch" class.
+    ## =================================================================
+    class(z) <- c("submatch", class(z))
+    z
+}
+
+`as.matrix.submatch` <- function(x, ...)
+{
+    unclass(do.call(rbind, x))
+}
+
+`[.submatch` <- function(x, i, j, ..., drop = TRUE)
+{
+    m <- as.matrix(x)
+
+    if ((missing(i) && drop && ncol(m) == 1L) ||
+        (missing(j) && drop && nrow(m) == 1L))
+        return(as.vector(m))
+
+    m[i, j, drop = drop]
+}
+
+print.submatch <- function(x, ...)
+{
+    print(as.matrix(x))
+}

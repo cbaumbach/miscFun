@@ -45,6 +45,7 @@ read.tables      Read and concatenate tables
 rename           Return modified names of object
 rev_map          Invert a map
 single_quote     Surround string(s) with single quotes
+submatch         Extract submatches from strings
 wait_until       Suspend execution until deadline
 }
 }
@@ -186,6 +187,28 @@ rev_map(map)
 ## single_quote
 single_quote(c("He said \"It's all the same.\"",
                "He said 'It's all the same.'"))
+
+## submatch
+x <- submatch(".*chr(\\\\d+)_(\\\\d+)",
+              c("path_chr1_2/to/the_chr10_3_foo.txt",
+                "path_chr1_2/to/the_chr7_5_bar.txt",
+                "path_chrA_B/to/the_chrX_Y_baz.txt"))
+
+print(x)
+
+x
+x[]
+x[, ]
+x[, 1:2]
+x[, 2]
+x[, 2, drop = FALSE]
+x[1, ]
+x[1, , drop = FALSE]
+x[3, 1]
+x[3, 1, drop = FALSE]
+x[1, 1]
+x[1, 1, drop = FALSE]
+x[1:2, 1:2]
 
 ## wait_until
 \dontrun{
