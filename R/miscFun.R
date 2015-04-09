@@ -84,9 +84,26 @@ ave2 <- function (x, factors, f, ...)
     x
 }
 
-rename <- function(x, old2new)
+rename <- function(x, old2new, warn = TRUE)
 {
     old_names <- new_names <- names(x)
+
+    if (is.null(names(old2new)))
+        return(old_names)
+
+    ## Warn about name tags in `old2new' that don't match any element
+    ## of `names(x)'.
+    if (warn) {
+        matching <- names(old2new) %in% old_names
+        if (any(!matching)) {
+            non_matching <- paste(vapply(names(old2new)[!matching],
+                                         double_quote, character(1L)),
+                                  collapse = ", ")
+            warning("The following name tags from `old2new' don't ",
+                    "match any element of `names(x)': ", non_matching)
+        }
+    }
+
     idx <- old_names %in% names(old2new)
     new_names[idx] <- old2new[ old_names[idx] ]
     new_names

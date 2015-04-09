@@ -172,7 +172,7 @@ read.tables(paste0("table", 1:100, ".txt"), ncore = 10L)
 
 ## rename
 x <- c(a = 1, b = 2, c = 3, `9` = 9)
-old2new <- c(a = "A", b = "B", c = NA, g = "G", a = "X", `9` = "nine")
+old2new <- c(a = "A", b = "B", c = NA, "foo", g = "G", a = "X", `9` = "nine")
 names(x) <- rename(x, old2new)
 
 ## rev_map
