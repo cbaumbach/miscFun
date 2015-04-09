@@ -390,7 +390,7 @@ is.directory <- function(fs)
 
 read.tables <- function(files, sep = NULL, ncore = 1L, header = TRUE,
                         colClasses = "character", verbose = TRUE,
-                        check.names = FALSE, ...)
+                        check.names = FALSE, comment.char = "#", ...)
 {
     ## Drop empty files.
     files <- Filter(function(x) file.info(x)$size > 0L, files)
@@ -398,27 +398,51 @@ read.tables <- function(files, sep = NULL, ncore = 1L, header = TRUE,
     stopifnot(length(files) > 0L,
               all(vapply(files, file.exists, logical(1L))))
 
-    ## Determine field separator from 1st line of 1st (non-empty) file.
+    ## =================================================================
+    ## Determine field separator from one of the files.
+    ## =================================================================
     if (is.null(sep)) {
+
+        is_comment <- function(x)
+        {
+            grepl(paste0("^", comment.char), x)
+        }
+
+        ## Find a non-comment, non-empty line.
+        for (i in seq_along(files)) {
+
+            con <- file(files[i], "r")
+            tryCatch({
+                line <- readLines(con, 1L) # read 1st line
+                while (length(line) && nchar(line) && is_comment(line))
+                    line <- readLines(con, n = 1L) # read another line
+            }, finally = close(con))
+
+            if (length(line) && nchar(line))
+                break            # found a non-comment, non-empty line
+        }
+
         seps <- c("\t", ",", ";", " ")  # list of candidates
-        hits <- vapply(seps, grepl, logical(1L),
-                       readLines(files[1L], n = 1L), fixed = TRUE)
+        hits <- vapply(seps, grepl, logical(1L), line, fixed = TRUE)
 
         ## None of the candidates matched.
         if (!any(hits))
-            stop("Unable to figure out field separator in ", files[1L])
+            stop("Unable to figure out field separator in ", files[i])
 
         ## Select the first matching candidate as field separator.
         sep <- seps[which.max(hits)]
     }
 
+    ## =================================================================
+    ## Read and concatenate tables.
+    ## =================================================================
     f <- function(filename)
     {
         if (verbose)
             pr("Reading ", filename)
 
         read.table(filename, sep = sep, colClasses = colClasses,
-                   header = header, ...)
+                   header = header, comment.char = comment.char, ...)
     }
 
     do.call(rbind, parallel::mclapply(

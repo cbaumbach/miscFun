@@ -10,7 +10,7 @@
 \usage{
 read.tables(files, sep = NULL, ncore = 1L, header = TRUE,
             colClasses = "character", verbose = TRUE,
-            check.names = FALSE, \dots)
+            check.names = FALSE, comment.char = "#", \dots)
 }
 \arguments{
   \item{files}{
@@ -34,16 +34,20 @@ read.tables(files, sep = NULL, ncore = 1L, header = TRUE,
   \item{check.names}{
     See documentation of \code{\link[utils]{read.table}}.
   }
+  \item{comment.char}{
+    See documentation of \code{\link[utils]{read.table}}.
+  }
   \item{\dots}{
     Passed on to \code{\link[utils]{read.table}}.
   }
 }
 \details{
   If not explicitly specified, the field separator will be inferred from
-  the first line of one of the input files.  Possible candidates are
-  tab, comma, semicolon, single space.  They will be tested in the above
-  order.  The first candidate found will become the field separator.
-  The field separator must be the same for all input files.
+  the first non-comment, non-empty line of one of the input files.
+  Possible candidates are tab, comma, semicolon, single space.  They
+  will be tested in the above order.  The first candidate found will
+  become the field separator. The field separator must be the same for
+  all input files.
 }
 \value{
   Returns the data frame that results from concatenating all input
