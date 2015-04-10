@@ -497,7 +497,7 @@ match1of <- function(candidates, x, ...)
     })
 }
 
-submatch <- function(pattern, xs)
+submatch <- function(pattern, xs, drop = FALSE)
 {
     ## =================================================================
     ## Determine number of submatches.
@@ -544,29 +544,7 @@ submatch <- function(pattern, xs)
                         x
                 })
     ## =================================================================
-    ## Make object an instance of "submatch" class.
+    ## Convert to matrix.
     ## =================================================================
-    class(z) <- c("submatch", class(z))
-    z
-}
-
-`as.matrix.submatch` <- function(x, ...)
-{
-    unclass(do.call(rbind, x))
-}
-
-`[.submatch` <- function(x, i, j, ..., drop = TRUE)
-{
-    m <- as.matrix(x)
-
-    if ((missing(i) && drop && ncol(m) == 1L) ||
-        (missing(j) && drop && nrow(m) == 1L))
-        return(as.vector(m))
-
-    m[i, j, drop = drop]
-}
-
-print.submatch <- function(x, ...)
-{
-    print(as.matrix(x))
+    do.call(rbind, z)[, , drop = drop]
 }

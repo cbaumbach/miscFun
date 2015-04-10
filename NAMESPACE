@@ -23,6 +23,4 @@ export("all_neighbors",
        "rev_map",
        "single_quote",
        "submatch",
-       "[.submatch",
-       "print.submatch",
        "wrap_lines")
