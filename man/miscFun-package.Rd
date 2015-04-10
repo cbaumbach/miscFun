@@ -35,6 +35,7 @@ flip             Flip 1st and 2nd argument of a function
 is.directory     Test for directory
 match1of         Find first matching candidate
 match_intervals  Match positions to intervals
+mkdir            Create directories
 nfields          Return number of columns in file
 nuniq            Return number of unique elements
 one_per_element  One value per vector element
@@ -128,6 +129,11 @@ g(z = 3, 1, 2) == 13
 
 ## is.directory
 is.directory(".")
+
+## mkdir
+\dontrun{
+mkdir(c("path/to/dir1", "/path/to/dir2"))
+}
 
 ## match1of
 match1of(c("foo", "bar", "xxx", "baz", "quux"), c("foo", "bar", "quux"))

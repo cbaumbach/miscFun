@@ -548,3 +548,20 @@ submatch <- function(pattern, xs, drop = FALSE)
     ## =================================================================
     do.call(rbind, z)[, , drop = drop]
 }
+
+mkdir <- function(dirs, recursive = TRUE, verbose = TRUE)
+{
+    f <- function(d)
+    {
+        if (!file.exists(d)) {
+            if (!dir.create(d, recursive = recursive))
+                stop("Failed to create directory: ", d)
+            if (verbose)
+                pr("Created directory: ", d)
+        }
+        else if (!is.directory(d))
+            stop("Can't create directory: ", d,
+                 "\nThere is already a file of the same name.")
+    }
+    invisible(lapply(dirs, f))
+}
