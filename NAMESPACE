@@ -24,4 +24,5 @@ export("all_neighbors",
        "rev_map",
        "single_quote",
        "submatch",
+       "wait_until",
        "wrap_lines")
