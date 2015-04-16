@@ -79,6 +79,13 @@ colClasses <- function(fmt)
 
 ave2 <- function (x, factors, f, ...)
 {
+    if (missing(factors))
+        stop("`factors' must not be missing.")
+    else if (is.null(factors))
+        stop("`factors' must not be `NULL'.")
+    else if (length(factors) == 0L)
+        stop("`factors' must not be of length 0.")
+
     g <- interaction(factors)
     split(x, g) <- lapply(split(x, g), f, ...)
     x
