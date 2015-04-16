@@ -35,6 +35,7 @@ flip             Flip 1st and 2nd argument of a function
 is.directory     Test for directory
 match1of         Find first matching candidate
 match_intervals  Match positions to intervals
+maybe            Maybe apply function to value
 mkdir            Create directories
 nfields          Return number of columns in file
 nuniq            Return number of unique elements
@@ -144,6 +145,12 @@ start <- c(0L,1L,4L)
 end   <- c(1L,2L,5L)
 id    <- c(1L,2L,3L)
 match_intervals(pos, start, end, id)
+
+## maybe
+x <- "12"
+y <- "foo"
+maybe(as.integer, x)
+maybe(as.integer, y)
 
 ## nfields
 \dontrun{

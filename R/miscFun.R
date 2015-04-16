@@ -565,3 +565,8 @@ mkdir <- function(dirs, recursive = TRUE, verbose = TRUE)
     }
     invisible(lapply(dirs, f))
 }
+
+maybe <- function(f, x)
+{
+    tryCatch(f(x), warning = function(w) x)
+}
