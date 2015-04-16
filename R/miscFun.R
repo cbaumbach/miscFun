@@ -497,12 +497,8 @@ match1of <- function(candidates, x, ...)
     })
 }
 
-submatch <- function(pattern, xs, drop = FALSE)
+nsubexp <- function(pattern)
 {
-    ## =================================================================
-    ## Determine number of submatches.
-    ## =================================================================
-
     ## Remove any character classes since parentheses in character
     ## classes don't create submatches.
     y <- gsub("\\[.*?\\]", "", pattern)
@@ -512,8 +508,12 @@ submatch <- function(pattern, xs, drop = FALSE)
     y <- gsub("\\\\\\(", "", y)
 
     ## Count open parentheses.
-    nsubmatch <- nchar(gsub("[^(]", "", y))
+    nchar(gsub("[^(]", "", y))
+}
 
+submatch <- function(pattern, xs, drop = FALSE)
+{
+    nsubmatch <- nsubexp(pattern)
     if (nsubmatch == 0L)
         stop("`pattern' must contain a parenthesized subexpression.")
 

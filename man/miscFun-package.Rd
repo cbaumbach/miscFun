@@ -38,6 +38,7 @@ match_intervals  Match positions to intervals
 maybe            Maybe apply function to value
 mkdir            Create directories
 nfields          Return number of columns in file
+nsubexp          Count number of parenthesize subexpressions in string
 nuniq            Return number of unique elements
 one_per_element  One value per vector element
 one_per_row      One value per row
@@ -156,6 +157,9 @@ maybe(as.integer, y)
 \dontrun{
 nf <- nfields("my_data.csv", sep = ",")
 }
+
+## nsubexp
+nsubexp("a_[(string)]_with_(2)_parenthesized_(sub)expressions")
 
 ## nuniq
 nuniq(rep(LETTERS[1:5], 1:5))
