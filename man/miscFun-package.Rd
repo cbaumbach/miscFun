@@ -152,6 +152,9 @@ x <- "12"
 y <- "foo"
 maybe(as.integer, x)
 maybe(as.integer, y)
+maybe(as.integer, y, 0L)
+tryCatch(maybe(as.integer, stop(), 0L),
+         error = function(e) pr("Evaluating `x' caused an error."))
 
 ## nfields
 \dontrun{

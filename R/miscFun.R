@@ -573,7 +573,16 @@ mkdir <- function(dirs, recursive = TRUE, verbose = TRUE)
     invisible(lapply(dirs, f))
 }
 
-maybe <- function(f, x)
+maybe <- function(f, x, y = x)
 {
-    tryCatch(f(x), warning = function(w) x)
+    ## We don't want to catch errors or warnings resulting from
+    ## evaluating the expression that yields the value of `x'.  The
+    ## concern of `maybe' is to catch warnings and errors caused by
+    ## applying `f' to `x', not errors due to evaluating `x'.
+    force(x)
+
+    ## If evaluating `f(x)' gives an error or a warning, return `y'.
+    alternative <- function(ignored) y
+
+    tryCatch(f(x), warning = alternative, error = alternative)
 }
