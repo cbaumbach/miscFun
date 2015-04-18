@@ -586,3 +586,21 @@ maybe <- function(f, x, y = x)
 
     tryCatch(f(x), warning = alternative, error = alternative)
 }
+
+find_first_match <- function(candidates, x, ...)
+{
+    if (length(x) == 0L)
+        stop("`x' must be a character vector of length >= 1.")
+
+    if (length(candidates) == 0L)
+        stop("`candidates' must be a character vector of length >= 1.")
+
+    choices <- vapply(lapply(candidates, grepl, x, ...),
+                      function(ys) if (any(ys)) which.max(ys) else NA,
+                      integer(1L))
+
+    if (all(is.na(choices)))
+        return(NA_integer_)
+
+    min(choices, na.rm = TRUE)
+}

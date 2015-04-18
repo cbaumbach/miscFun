@@ -30,6 +30,7 @@ colClasses       Expand template into read.table's colClasses argument
 double_quote     Surround string(s) with double quotes
 exit             Exit from running R job
 find_duplicates  Extract duplicated rows from data frame
+find_first_match Find first matching candidate
 flatten_csv      Flatten a list of strings of comma-separated elements
 flip             Flip 1st and 2nd argument of a function
 is.directory     Test for directory
@@ -117,6 +118,10 @@ find_duplicates(d, "x")
 find_duplicates(d, "x", c("y", "z"))
 find_duplicates(d, c("x", "y"))
 find_duplicates(d, c("x", "z"))
+
+## find_first_match
+match1of(c("foo", "bar", "xxx", "baz", "quux"), c("foo", "bar", "quux"))
+find_first_match(c("foo", "bar", "baz", "quux"), c("baz", "quux", "bar"))
 
 ## flatten_csv
 flatten_csv(c("1,2", "3,4,5"))
