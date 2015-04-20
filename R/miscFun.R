@@ -604,3 +604,23 @@ find_first_match <- function(candidates, x, ...)
 
     min(choices, na.rm = TRUE)
 }
+
+gzhead <- function(files, n = 1L, ncore = 1L, simplify = TRUE)
+{
+    not_there <- ! file.exists(files)
+    if (any(not_there))
+        stop("Some `files' don't exist:\n",
+             paste(files[not_there], collapse = ", "))
+
+    ## Find path to perl script for parsing obo file.
+    package_dir <- find.package("miscFun")
+    perl_script <- file.path(package_dir, "perl", "gzhead.pl")
+
+    cmd <- paste(perl_script, "-n", n, files)
+    x <- parallel::mclapply(cmd, system, intern = TRUE)
+
+    if (simplify && n == 1L)
+        do.call(c, x)
+    else
+        unname(x)
+}

@@ -33,6 +33,7 @@ find_duplicates  Extract duplicated rows from data frame
 find_first_match Find first matching candidate
 flatten_csv      Flatten a list of strings of comma-separated elements
 flip             Flip 1st and 2nd argument of a function
+gzhead           Output the first part of gzip-files
 is.directory     Test for directory
 match1of         Find first matching candidate
 match_intervals  Match positions to intervals
@@ -133,6 +134,16 @@ g <- flip(f)
 f(1, 2, 3) == 14
 g(1, 2, 3) == 13
 g(z = 3, 1, 2) == 13
+
+## gzhead
+\dontrun{
+tmp1 <- tempfile(tmpdir = "/tmp")
+tmp2 <- tempfile(tmpdir = "/tmp")
+cat("line 1\nline 2\nline 3", file = tmp1)
+cat("LINE 1\nLINE 2\nLINE 3", file = tmp2)
+gzhead(c(tmp1, tmp2))
+file.remove(tmp1, tmp2)
+}
 
 ## is.directory
 is.directory(".")
