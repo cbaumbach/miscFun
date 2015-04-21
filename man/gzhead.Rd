@@ -8,7 +8,7 @@
   Output the first part of gzip-files
 }
 \usage{
-gzhead(files, n = 1L, ncore = 1L, simplify = TRUE)
+gzhead(files, n = 1L, simplify = TRUE)
 }
 \arguments{
   \item{files}{
@@ -16,9 +16,6 @@ gzhead(files, n = 1L, ncore = 1L, simplify = TRUE)
   }
   \item{n}{
     Number of lines to print.
-  }
-  \item{ncore}{
-    Number of cores to use in parallel.
   }
   \item{simplify}{
     If TRUE and `n = 1L', return result as character vector.
