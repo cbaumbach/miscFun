@@ -41,9 +41,13 @@ flatten_csv <- function(x, sep = ",", fixed = TRUE)
            use.names = FALSE)
 }
 
-nfields <- function(file, sep = "\t")
+nfields <- function(con, sep = "\t")
 {
-    length(scan(file, what = character(), sep = sep, nlines = 1L,
+    if (is.character(file)) {
+        con <- file(con)
+        on.exit(close(con))
+    }
+    length(scan(con, what = character(), sep = sep, nlines = 1L,
                 quiet = TRUE))
 }
 

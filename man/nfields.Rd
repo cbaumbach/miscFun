@@ -8,11 +8,11 @@
   Return number of columns in file.
 }
 \usage{
-nfields(file, sep = "\t")
+nfields(con, sep = "\t")
 }
 \arguments{
-  \item{file}{
-    File in which columns should be counted.
+  \item{con}{
+    File/connection for which columns should be counted.
   }
   \item{sep}{
     Separator used to separate columns in file.
