@@ -99,24 +99,37 @@ rename <- function(x, old2new, warn = TRUE)
 {
     old_names <- new_names <- names(x)
 
-    if (is.null(names(old2new)))
+    ## Warn about NULL `names' attribute of `old2new'.
+    if (is.null(names(old2new))) {
+        if (warn)
+            warning("`names' attribute of `old2new' is NULL.")
         return(old_names)
+    }
 
-    ## Warn about name tags in `old2new' that don't match any element
-    ## of `names(x)'.
+    ## Warn if any non-empty (non-"") name tags in `old2new' don't
+    ## match in `names(x)'.
     if (warn) {
-        matching <- names(old2new) %in% old_names
-        if (any(!matching)) {
-            non_matching <- paste(vapply(names(old2new)[!matching],
-                                         double_quote, character(1L)),
-                                  collapse = ", ")
+        non_matching <- ! names(old2new) %in% old_names
+        non_empty <- names(old2new) != ""
+        if (any(non_matching & non_empty))
             warning("The following name tags from `old2new' don't ",
-                    "match any element of `names(x)': ", non_matching)
-        }
+                    "match any element of `names(x)': ",
+                    paste(double_quote(
+                        names(old2new)[non_matching & non_empty]),
+                          collapse = ", "))
     }
 
     idx <- old_names %in% names(old2new)
     new_names[idx] <- old2new[ old_names[idx] ]
+
+    ## Warn if new `names' attribute contains duplicates.
+    if (warn) {
+        dupl <- new_names[duplicated(new_names)]
+        if (length(dupl))
+            warning("Duplicates after renaming: ",
+                    paste(double_quote(dupl), collapse = ", "))
+    }
+
     new_names
 }
 

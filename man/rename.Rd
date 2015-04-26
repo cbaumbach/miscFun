@@ -18,8 +18,7 @@ rename(x, old2new, warn = TRUE)
     of `x' and whose elements correspond to the new names of `x'.
   }
   \item{warn}{
-    If TRUE, warn about name tags in `old2new' that don't match any
-    element of `names(x)'.
+    If TRUE, warn about stuff (see Details).
   }
 }
 \value{
@@ -33,16 +32,23 @@ rename(x, old2new, warn = TRUE)
   way, use \code{\link[base]{names<-}} with `x' and the result of the
   call to \code{rename}.
 
-  Note that `old2new' does not have to contain new values for all of the
-  names of `x'.  Also, `old2new' may contain tags that do not appear at
-  all in the names of `x'.  If a name of `x' is not among the tags in
-  `old2new', it will be unchanged.  However, a warning will be given
-  unless `warn = "FALSE"'.  If `old2new' contains the same tag more than
-  once, the first element under the tag will be used for changing the
-  respective value in `names(x)'.  If `old2new' contains a mixture of
-  tagged and untagged elements, the untagged elements are implicitly
-  tagged by the empty string ("").  If `old2new' has no `names'
-  attribute, the unmodified `names' attribute of `x' is returned.
+  Note that `old2new' does not have to contain new values for all
+  elements of `names(x)'.  If an element of `names(x)' is not among the
+  tags in `old2new', it will be unchanged.  If `old2new' contains the
+  same tag more than once, the first element with the given tag will be
+  used for changing the matching element in `names(x)'. If `old2new'
+  contains a mixture of tagged and untagged elements, the untagged
+  elements are implicitly tagged by the emptystring ("").  If `old2new'
+  has no `names' attribute, the unmodified `names' attribute of `x' is
+  returned.
+
+  Unless `warn = FALSE' \code{rename} will issue a warning if
+  \enumerate{
+    \item `old2new' contains non-empty (non-"") tags that do not match
+          any element of `names(x)';
+    \item the `names' attribute of `old2new' is empty (NULL);
+    \item `names(x)' contains duplicates after renaming.
+  }
 }
 \examples{
 library(miscFun)
