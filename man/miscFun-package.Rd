@@ -184,7 +184,7 @@ nsubexp("a_[(string)]_with_(2)_parenthesized_(sub)expressions")
 nuniq(rep(LETTERS[1:5], 1:5))
 
 ## one_per_element
-x <- c("1,2", "3,4,5", "6")
+x <- c("1,2", "3,4,5", "6", "", "7,8")
 one_per_element(x)
 
 y <- c("1---2", "3--4----5", "6-7")

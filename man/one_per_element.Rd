@@ -25,12 +25,12 @@ one_per_element(x, sep = ",", perl = FALSE)
 }
 \value{
   Returns a character vector where every element contains exactly one
-  string.
+  string.  Empty strings in `x' will not be part of the return vector.
 }
 \examples{
 library(miscFun)
 
-x <- c("1,2", "3,4,5", "6")
+x <- c("1,2", "3,4,5", "6", "", "7,8")
 one_per_element(x)
 
 y <- c("1---2", "3--4----5", "6-7")
