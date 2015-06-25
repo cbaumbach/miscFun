@@ -636,3 +636,28 @@ gzhead <- function(files, n = 1L, simplify = TRUE)
     else
         unname(x)
 }
+
+cluster1d <- function(x, gap, frac = NULL)
+{
+    if ((missing(gap) && is.null(frac))
+        || (!missing(gap) && !is.null(frac)))
+        stop("You must supply either `gap' or `frac'.")
+
+    if (!is.null(frac) && (frac <= 0 || 1 <= frac))
+        stop("`frac' must be in (0,1).")
+
+    ord <- order(x)
+
+    xs <- x[ord]
+
+    if (length(x) == 0L)
+        stop("`x' must contain at least one non-NA value.")
+
+    if (!missing(frac))
+        gap <- diff(range(xs, na.rm = TRUE)) * frac
+
+    breaks <- c(0L, which(diff(xs) >= gap), length(xs))
+    cluster <- as.integer(cut(seq_along(xs), breaks))
+    cluster[is.na(xs)] <- NA
+    cluster[order(ord)]
+}

@@ -1,0 +1,36 @@
+\name{cluster1d}
+\alias{cluster1d}
+\docType{package}
+\title{
+  Group one-dimensional data into clusters of contiguous points
+}
+\description{
+  Group one-dimensional data into clusters of contiguous points
+}
+\usage{
+cluster1d(x, gap, frac = NULL)
+}
+\arguments{
+  \item{x}{
+    Numeric vector of points to be grouped into clusters.
+  }
+  \item{gap}{
+    Size of gap that separates two neighboring clusters.
+  }
+  \item{frac}{
+    Size of gap that separates two neighboring clusters expressed as a
+    fraction of the range of `x'.
+  }
+}
+\value{
+  Returns an integer vector that is aligned with `x' and contains the
+  cluster for the associated element in `x'.  NA values in `x' will have
+  NA values in the resulting vector.
+}
+\examples{
+library(miscFun)
+
+x <- c(9, 12, 3, 4, 17, 10, 12, NA, 6, 1)
+cluster1d(x, gap = 3)
+cluster1d(x, frac = .15)
+}

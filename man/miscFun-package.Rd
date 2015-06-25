@@ -26,6 +26,7 @@ Index:
 \preformatted{
 all_neighbors    Test whether binary predicate holds list elements
 ave2             Apply function over level combinations of factors
+cluster1d        Group one-dimensional data into clusters of contiguous points
 colClasses       Expand template into read.table's colClasses argument
 double_quote     Surround string(s) with double quotes
 exit             Exit from running R job
@@ -94,6 +95,11 @@ fact1 <- rep(1:2, each = 4L)
 fact2 <- rep(c("A","B"), length.out = 8L)
 x <- 1:8
 ave2(x, list(fact1, fact2), function(x, k) k * sum(x), 3)
+
+## cluster1d
+x <- c(9, 12, 3, 4, 17, 10, 12, NA, 6, 1)
+cluster1d(x, gap = 3)
+cluster1d(x, frac = .15)
 
 ## colClasses
 colClasses("3N2cin14Ni")
