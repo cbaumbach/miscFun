@@ -677,6 +677,6 @@ count_points_per_interval <- function(pos, start, end)
 
 sort_intervals <- function(start, end)
 {
-    new_order <- order(is.na(start), is.na(end), start, end)
+    new_order <- order(start > end, is.na(start), is.na(end), start, end)
     list(start = start[new_order], end = end[new_order])
 }

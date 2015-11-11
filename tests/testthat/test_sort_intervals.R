@@ -61,3 +61,9 @@ test_that("[1,2] < [0,NA] < [NA,0] < [NA,NA]", {
     expected <- list(start = c(1, 0, NA, NA), end = c(2, NA, 0, NA))
     expect_equal(actual, expected)
 })
+
+test_that("[0,1] < [5,6] < [2,1] < [3,0] < [3,1] < [0,NA]", {
+    actual <- f(start = c(2, 0, 3, 5, 0, 3), end = c(1, NA, 1, 6, 1, 0))
+    expected <- list(start = c(0, 5, 2, 3, 3, 0), end = c(1, 6, 1, 0, 1, NA))
+    expect_equal(actual, expected)
+})
