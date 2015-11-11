@@ -662,6 +662,19 @@ cluster1d <- function(x, gap, frac = NULL)
     cluster[order(ord)]
 }
 
+count_points_per_interval <- function(pos, start, end)
+{
+    if (length(start) != length(end))
+        stop("START and END must have same length")
+    inf_intervals <- is.infinite(start) | is.infinite(end)
+    intervals <- rcpp_find_matching_intervals(pos, start, end)$interval
+    stopifnot(all(intervals %in% seq_along(start)))
+    counts <- factor(intervals, levels = seq_along(start))
+    n <- as.integer(table(counts, useNA = "no"))
+    n[inf_intervals] <- NA
+    n
+}
+
 sort_intervals <- function(start, end)
 {
     new_order <- order(is.na(start), is.na(end), start, end)
