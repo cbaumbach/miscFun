@@ -1,3 +1,5 @@
+useDynLib(miscFun)
+
 export("all_neighbors",
        "ave2",
        "cluster1d",
@@ -24,6 +26,7 @@ export("all_neighbors",
        "one_per_row",
        "pr",
        "pr1",
+       "rcpp_find_matching_intervals",
        "read.tables",
        "rename",
        "rev_map",
@@ -31,3 +34,5 @@ export("all_neighbors",
        "submatch",
        "wait_until",
        "wrap_lines")
+
+importFrom(Rcpp, evalCpp)
