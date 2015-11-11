@@ -11,6 +11,12 @@ static bool belongs_to_interval(int pos, int start, int end)
     return (start <= pos) && (pos <= end);
 }
 
+static int get_last_index(int pos, IntegerVector& start)
+{
+    return std::upper_bound(start.begin(), start.end(), pos)
+                    - start.begin();
+}
+
 // [[Rcpp::export]]
 List rcpp_find_matching_intervals(IntegerVector pos,
         IntegerVector start, IntegerVector end)
@@ -20,7 +26,8 @@ List rcpp_find_matching_intervals(IntegerVector pos,
 
     for (int i = 0; i < pos.size(); i++) {
         int position = pos[i];
-        for (int j = 0; j < start.size(); j++) {
+        int last_index = get_last_index(position, start);
+        for (int j = 0; j < last_index; j++) {
             if (is_na_interval(start[i], end[i]))
                 continue;
             if (belongs_to_interval(position, start[j], end[j])) {
@@ -29,7 +36,6 @@ List rcpp_find_matching_intervals(IntegerVector pos,
             }
         }
     }
-
     return List::create(
         Named("position") = as<IntegerVector>(wrap(index_position)),
         Named("interval") = as<IntegerVector>(wrap(index_interval)));
