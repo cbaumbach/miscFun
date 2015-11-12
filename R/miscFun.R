@@ -682,7 +682,7 @@ order_intervals <- function(start, end)
 
 sort_intervals <- function(start, end)
 {
-    new_order <- order(start > end, is.na(start), is.na(end), start, end)
+    new_order <- order_intervals(start, end)
     list(start = start[new_order], end = end[new_order])
 }
 
