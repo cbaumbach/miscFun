@@ -690,3 +690,25 @@ same_length <- function(...)
 {
     all_neighbors(`==`, vapply(list(...), length, 1L))
 }
+
+make_ordered_pairs <- function(x, y = NULL) {
+    make_pairs(x, y, ordered = TRUE)
+}
+
+make_unordered_pairs <- function(x, y = NULL) {
+    make_pairs(x, y, ordered = FALSE)
+}
+
+make_pairs <- function(x, y = NULL, ordered = TRUE) {
+    if (is.null(y))
+        y <- x
+    xy <- outer(seq_along(x), seq_along(y), paste)
+    if (!ordered)  # Remove duplicates.
+        xy <- xy[lower.tri(xy, diag = TRUE)]
+    dim(xy) <- NULL
+    pairs <- submatch("(\\d+) (\\d+)", xy)
+    data.frame(
+        x = x[as.integer(pairs[, 1L])],
+        y = y[as.integer(pairs[, 2L])],
+        stringsAsFactors = FALSE)
+}
