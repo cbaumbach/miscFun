@@ -33,10 +33,11 @@ submatch(pattern, xs, drop = FALSE)
   single-row matrices are returned as vectors.
 }
 \examples{
-library(miscFun)
-
 submatch(".*chr(\\\\d+)_(\\\\d+)",
          c("path_chr1_2/to/the_chr10_3_foo.txt",
            "path_chr1_2/to/the_chr7_5_bar.txt",
            "path_chrA_B/to/the_chrX_Y_baz.txt"))
+
+# Submatch an expression within parentheses.
+submatch("[(](.*)[)]", "foo (bar) baz")
 }
