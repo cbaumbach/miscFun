@@ -12,5 +12,5 @@ test_that("make_observer works", {
     expect_that(seen(3), is_true())
     expect_that(seen(4), is_false())
     expect_that(seen(show = TRUE), equals(as.character(0:4)))
-    expect_that(seen(NA), throws_error('Argument must be of length 1 and class "character", "numeric", or "integer".'))
+    expect_that(seen(NA), throws_error('Argument must be of length 1 and class must be "character", "numeric", or "integer".'))
 })
