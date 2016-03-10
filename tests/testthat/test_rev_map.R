@@ -33,15 +33,20 @@ test_that("the reverse of the reverse of a map without missing values is the map
     expect_that(rrmap, equals(map))
 })
 
-test_that("the reversing a map twice removes keys without values", {
+test_that("reversing a map twice removes keys without values", {
     map <- list(a = c("A","C"), b = c("B","C"), c = NULL, d = character(0L))
     map2 <- list(a = c("A","C"), b = c("B","C"))
     rrmap <- rev_map(rev_map(map))
 
-    ## Sort elements.
-    map   <- lapply(map, sort)
-    map2  <- lapply(map2, sort)
-    rrmap <- lapply(rrmap, sort)
+    sort_elements <- function(x) {
+        if (is.null(x))
+            x
+        else
+            sort(x)
+    }
+    map   <- lapply(map, sort_elements)
+    map2  <- lapply(map2, sort_elements)
+    rrmap <- lapply(rrmap, sort_elements)
 
     expect_that(rrmap, equals(map2))
 })
