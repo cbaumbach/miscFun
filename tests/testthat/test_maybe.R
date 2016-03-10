@@ -19,5 +19,4 @@ test_that("maybe works", {
     expect_that(maybe(stop,       "foo", 0L), equals(0))
     expect_that(maybe(as.integer, stop("x is rotten"), 0L), throws_error("x is rotten"))
     expect_that(maybe(as.integer, warning("x is rotten"), 0L), gives_warning("x is rotten"))
-    expect_that(maybe(as.integer, warning("x is rotten"), 0L), equals(0L))
 })
