@@ -1,4 +1,4 @@
-context("Use template to generate vector for read.table's colClasses argument")
+context("colClasses")
 
 test_that("colClasses can deal with invalid input", {
     expect_that(colClasses("Ncinlrx"), equals(c("NULL", "character", "integer", "numeric", "logical", "raw", "complex")))

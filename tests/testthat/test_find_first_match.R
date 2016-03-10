@@ -1,4 +1,4 @@
-context("Find first matching candidate")
+context("find_first_match")
 
 test_that("find_first_match works", {
 

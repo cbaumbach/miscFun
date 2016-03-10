@@ -1,4 +1,4 @@
-context("Create function for keeping track of values")
+context("make_observer")
 
 test_that("make_observer works", {
     seen <- make_observer()

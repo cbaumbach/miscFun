@@ -1,4 +1,4 @@
-context("Return modified names of object")
+context("rename")
 
 test_that("rename works", {
     d <- expand.grid(x = 1:2, y = c(TRUE, FALSE))

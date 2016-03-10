@@ -1,4 +1,4 @@
-context("Testing the is.directory function")
+context("is.directory")
 
 test_that("is.directory works", {
     expect_that(is.directory("."), is_true())

@@ -1,4 +1,4 @@
-context("Return nothing")
+context("noop")
 
 test_that("noop works", {
     expect_that(noop(stop()), equals(NULL))

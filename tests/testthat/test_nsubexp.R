@@ -1,4 +1,4 @@
-context("Counting parenthesized subexpressions in regular expression patterns")
+context("nsubexp")
 
 test_that("nsubexp works", {
     expect_that(nsubexp(""),                                equals(0L))

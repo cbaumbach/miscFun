@@ -1,4 +1,4 @@
-context("Test whether a binary predicate holds for all direct neighbors in a list")
+context("all_neighbors")
 
 test_that("it works for different kind of predicates", {
     expect_that(all_neighbors(identical, c(1,1,1)),    is_true())

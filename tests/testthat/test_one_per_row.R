@@ -1,4 +1,4 @@
-context("One value per row")
+context("one_per_row")
 
 test_that("the single-column case works", {
 

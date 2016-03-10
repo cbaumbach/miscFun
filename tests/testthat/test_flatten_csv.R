@@ -1,4 +1,4 @@
-context("Flattening csv strings")
+context("flatten_csv")
 
 test_that("flatten_csv works with fixed and regex separators", {
     x1 <- c("1,2,3", "4,5", "6")

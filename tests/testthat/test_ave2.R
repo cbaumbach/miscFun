@@ -1,4 +1,4 @@
-context("Apply function over level combinations of factors")
+context("ave2")
 
 test_that("ave2 works", {
 

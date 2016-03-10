@@ -1,4 +1,4 @@
-context("Number of unique elements")
+context("nuniq")
 
 test_that("nuniq handles missings and factors correctly", {
     expect_that(nuniq(NA),                                      equals(1L))

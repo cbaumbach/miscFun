@@ -1,4 +1,4 @@
-context("make pairs")
+context("make_pairs")
 
 test_that("ordered pairs from single argument", {
     x <- 1:3

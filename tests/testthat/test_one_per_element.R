@@ -1,4 +1,4 @@
-context("One value per vector element")
+context("one_per_element")
 
 test_that("the simplest case works", {
 

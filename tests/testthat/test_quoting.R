@@ -1,4 +1,4 @@
-context("Adding double and single quotes.")
+context("quoting")
 
 test_that("inner quotes are escaped as needed", {
     s <- c("He said \"It's all the same.\"",

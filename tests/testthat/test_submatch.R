@@ -1,4 +1,4 @@
-context("Extracting submatches from strings")
+context("submatch")
 
 test_that("submatch works", {
     xs <- c("chr1_path/to/the_chr10_3_foo.txt",

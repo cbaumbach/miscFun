@@ -1,4 +1,4 @@
-context("Determining the number of columns in a file")
+context("nfields")
 
 test_that("nfields works with different separators", {
     contents <- paste(c(

@@ -1,6 +1,4 @@
-
-
-context("Matching positions to intervals")
+context("match_intervals")
 
 test_that("everything works fine in the vanilla use case", {
     pos   <- c(1L,2L,3L)

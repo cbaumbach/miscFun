@@ -1,4 +1,4 @@
-context("Maybe apply a function to a value")
+context("maybe")
 
 test_that("maybe works", {
 

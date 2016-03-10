@@ -1,4 +1,4 @@
-context("Testing the cluster1d function")
+context("cluster1d")
 
 test_that("cluster1d works", {
     x <- c(9, 12, 3, 4, 17, 10, 12, NA, 6, 1)

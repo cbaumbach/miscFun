@@ -1,4 +1,4 @@
-context("Inverting maps.")
+context("rev_map")
 
 test_that("simple cases work as expected", {
     map <- list(a = c("A","C"), b = c("B","C"))

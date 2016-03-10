@@ -1,4 +1,4 @@
-context("Flipping function arguments")
+context("flip")
 
 test_that("only valid functions are flipped", {
     f <- function(x, y) x + y

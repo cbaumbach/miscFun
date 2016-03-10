@@ -1,4 +1,4 @@
-context("Group words in chunks of given length")
+context("group_words")
 
 test_that("group_words works", {
     s <- "The quick yellow-orange-brown fox jumps over the 3-year-old, lazy dog."

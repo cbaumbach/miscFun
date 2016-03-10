@@ -1,4 +1,4 @@
-context("Output the first lines of gzip-files")
+context("gzhead")
 
 test_that("gzhead works", {
     tmp1 <- tempfile(tmpdir = ".")

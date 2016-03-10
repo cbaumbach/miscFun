@@ -1,4 +1,4 @@
-context("Extracting duplicate rows from dataframes.")
+context("find_duplicates")
 
 test_that("simple cases work as expected", {
     d <- utils::read.table(text = "
