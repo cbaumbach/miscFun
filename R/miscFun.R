@@ -1294,6 +1294,10 @@ count_points_per_interval <- function(pos, start, end)
     if (length(start) != length(end))
         stop("START and END must have same length")
     inf_intervals <- is.infinite(start) | is.infinite(end)
+    start[inf_intervals] <- 0L
+    end[inf_intervals] <- 0L
+    inf_points <- is.infinite(pos)
+    pos[inf_points] <- NA
     intervals <- rcpp_find_matching_intervals(pos, start, end)$interval
     stopifnot(all(intervals %in% seq_along(start)))
     counts <- factor(intervals, levels = seq_along(start))
