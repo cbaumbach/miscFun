@@ -17,6 +17,25 @@ static int get_last_index(int pos, IntegerVector& start)
                     - start.begin();
 }
 
+//' Find intervals containing a set of points
+//'
+//' @param pos Integer vector of positions
+//' @param start Integer vector with left endpoints of intervals
+//' @param end Integer vector with right endpoints of intervals
+//'
+//' @return
+//' A list with two elements named "position" and "interval".  Both
+//' are integer vectors of indexes.  The "position" vector indexes the
+//' `pos` argument and the "interval" vector the `start` and `end`
+//' arguments.  The kth index in the "position" vector forms a pair
+//' with the kth index in the "interval" vector.  A pair of indexes
+//' (i,j) means that \code{pos[i]} belongs to the interval defined by
+//' \code{start[j]} and \code{end[j]}.
+//'
+//' @examples
+//' rcpp_find_matching_intervals(1:3, 2:3, 4:5)
+//'
+//' @export
 // [[Rcpp::export]]
 List rcpp_find_matching_intervals(IntegerVector pos,
         IntegerVector start, IntegerVector end)

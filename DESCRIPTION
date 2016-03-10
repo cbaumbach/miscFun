@@ -13,6 +13,6 @@ Suggests:
 Imports:
     parallel,
     Rcpp (>= 0.12.1)
-LinkingTo:
-    Rcpp
+LinkingTo: Rcpp
 License: GPL (>= 2)
+RoxygenNote: 5.0.1
