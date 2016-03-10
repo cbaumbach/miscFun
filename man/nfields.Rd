@@ -15,7 +15,9 @@ nfields(con, sep = "\\t")
 Return number of columns in file
 }
 \examples{
+\dontrun{
 nfields("data.csv", sep = ",")
+}
 
 }
 

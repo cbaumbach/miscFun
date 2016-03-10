@@ -104,7 +104,9 @@ flatten_csv <- function(x, sep = ",", fixed = TRUE) {
 #' @param sep Separator used to separate columns in \code{file}
 #'
 #' @examples
+#' \dontrun{
 #' nfields("data.csv", sep = ",")
+#' }
 #'
 #' @export
 nfields <- function(con, sep = "\t") {
