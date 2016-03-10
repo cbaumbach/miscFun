@@ -446,7 +446,7 @@ rev_map <- function(map) {
 #' is only one value per row in the columns `cols'.
 #'
 #' @examples
-#' d <- read.table("
+#' d <- read.table(text = "
 #' x y z
 #' 1 a,c A,C
 #' 2 b,d B,D

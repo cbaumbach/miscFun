@@ -25,7 +25,7 @@ values and put them into separate rows.  Eventually there will be
 only "one value per row" in the specified column(s).
 }
 \examples{
-d <- read.table("
+d <- read.table(text = "
 x y z
 1 a,c A,C
 2 b,d B,D
