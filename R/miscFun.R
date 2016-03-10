@@ -115,10 +115,10 @@ nfields <- function(con, sep = "\t") {
     length(scan(con, what = character(), sep = sep, nlines = 1L, quiet = TRUE))
 }
 
-#' Expand template into \code{\link[base]{read.table}}'s \code{colClasses} argument
+#' Expand template into \code{\link[utils]{read.table}}'s \code{colClasses} argument
 #'
 #' @param fmt Format string to be expanded and then used as the
-#'      \code{colClasses} argument to \code{\link[base]{read.table}}.
+#'      \code{colClasses} argument to \code{\link[utils]{read.table}}.
 #'
 #' @details
 #' The format allows digits and the letters N, c, i, and n which will
@@ -127,7 +127,7 @@ nfields <- function(con, sep = "\t") {
 #' included in the result.
 #'
 #' @return A vector that can be used as the \code{colClasses} argument
-#'      to \code{\link[base]{read.table}}.
+#'      to \code{\link[utils]{read.table}}.
 #'
 #' @examples
 #' stopifnot(c("NULL", "NULL", "character", "character", "character",

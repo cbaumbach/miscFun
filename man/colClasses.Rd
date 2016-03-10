@@ -2,20 +2,20 @@
 % Please edit documentation in R/miscFun.R
 \name{colClasses}
 \alias{colClasses}
-\title{Expand template into \code{\link[base]{read.table}}'s \code{colClasses} argument}
+\title{Expand template into \code{\link[utils]{read.table}}'s \code{colClasses} argument}
 \usage{
 colClasses(fmt)
 }
 \arguments{
 \item{fmt}{Format string to be expanded and then used as the
-\code{colClasses} argument to \code{\link[base]{read.table}}.}
+\code{colClasses} argument to \code{\link[utils]{read.table}}.}
 }
 \value{
 A vector that can be used as the \code{colClasses} argument
-     to \code{\link[base]{read.table}}.
+     to \code{\link[utils]{read.table}}.
 }
 \description{
-Expand template into \code{\link[base]{read.table}}'s \code{colClasses} argument
+Expand template into \code{\link[utils]{read.table}}'s \code{colClasses} argument
 }
 \details{
 The format allows digits and the letters N, c, i, and n which will
