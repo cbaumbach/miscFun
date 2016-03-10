@@ -1,7 +1,7 @@
 context("Extracting duplicate rows from dataframes.")
 
 test_that("simple cases work as expected", {
-    d <- read.table(textConnection("\
+    d <- utils::read.table(textConnection("\
 x y z
 1 2 3
 1 3 4
@@ -15,7 +15,7 @@ x y z
 })
 
 test_that("NAs are handled correctly", {
-    d <- read.table(textConnection("\
+    d <- utils::read.table(textConnection("\
 x y z
 1 2 3
 NA 3 4
@@ -29,7 +29,7 @@ NA 3 4
 })
 
 test_that("factors are handled correctly", {
-    d <- read.table(textConnection("\
+    d <- utils::read.table(textConnection("\
 x y z
 NA 2 a
 1 3 b
@@ -43,7 +43,7 @@ NA 2 a
 })
 
 test_that("character vectors are handled correctly", {
-    d <- read.table(textConnection("\
+    d <- utils::read.table(textConnection("\
 x y z
 NA 2 a
 1 3 b
@@ -57,7 +57,7 @@ NA 2 a
 })
 
 test_that("we can deal with empty dataframes", {
-    d <- read.table(textConnection("\
+    d <- utils::read.table(textConnection("\
 x y z
 ", "r"), header = TRUE)
 
@@ -68,7 +68,7 @@ x y z
 })
 
 test_that("we throw an error when finding non-existing columns", {
-    d <- read.table(textConnection("\
+    d <- utils::read.table(textConnection("\
 x y z
 1 2 3
 4 5 6

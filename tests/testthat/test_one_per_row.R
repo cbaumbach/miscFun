@@ -2,14 +2,14 @@ context("One value per row")
 
 test_that("the single-column case works", {
 
-    din <- read.table(textConnection("\
+    din <- utils::read.table(textConnection("\
 x y z
 1 a,c A,C
 2 b,d B,D
 3 e E
 ", "r"), header = TRUE, stringsAsFactors = FALSE)
 
-    dout <- read.table(textConnection("\
+    dout <- utils::read.table(textConnection("\
 x y z
 1 a A,C
 1 c A,C
@@ -23,14 +23,14 @@ x y z
 
 test_that("multiple columns can be specified", {
 
-    din <- read.table(textConnection("\
+    din <- utils::read.table(textConnection("\
 x y z
 1 a,c A,C
 2 b,d B,D
 3 e E
 ", "r"), header = TRUE, stringsAsFactors = FALSE)
 
-    dout <- read.table(textConnection("\
+    dout <- utils::read.table(textConnection("\
 x y z
 1 a A
 1 a C
