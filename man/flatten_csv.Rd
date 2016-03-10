@@ -24,7 +24,7 @@ which case `fixed' should be set to \code{FALSE}.
 }
 \examples{
 stopifnot(all(1:5 == flatten_csv(c("1,2", "3,4,5"))))
-stopifnot(all(c("a", "b", "c", "d") == flatten_csv(c("a1b", "c23d"), sep = "\\\\\\\\d+", fixed = FALSE)))
+stopifnot(all(c("a", "b", "c", "d") == flatten_csv(c("a1b", "c23d"), sep = "\\\\d+", fixed = FALSE)))
 
 }
 
