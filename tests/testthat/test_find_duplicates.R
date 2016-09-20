@@ -1,81 +1,75 @@
 context("find_duplicates")
 
+f <- find_duplicates
+
+read_table <- function(text) {
+    utils::read.table(text = text, header = TRUE)
+}
+
 test_that("simple cases work as expected", {
-    d <- utils::read.table(text = "
+    data <- read_table("
     x y z
     1 2 3
     1 3 4
-    1 2 4
-    ", header = TRUE)
-
-    expect_that(find_duplicates(d, "x"),              equals(d))
-    expect_that(find_duplicates(d, "x", c("y", "z")), equals(d[,c("y", "z")]))
-    expect_that(find_duplicates(d, c("x", "y")),      equals(d[c(1L,3L),]))
-    expect_that(find_duplicates(d, c("x", "z")),      equals(d[c(2L,3L),]))
+    1 2 4")
+    expect_identical(f(data, "x"), data)
+    expect_identical(f(data, "x", c("y", "z")), data[, c("y", "z")])
+    expect_identical(f(data, c("x", "y")), data[c(1, 3), ])
+    expect_identical(f(data, c("x", "z")), data[c(2, 3), ])
 })
 
 test_that("NAs are handled correctly", {
-    d <- utils::read.table(text = "
-    x y z
-    1 2 3
+    data <- read_table("
+    x  y z
+    1  2 3
     NA 3 4
-    1 2 4
-    ", header = TRUE)
-
-    expect_that(find_duplicates(d, "x"),              equals(d[c(1L,3L),]))
-    expect_that(find_duplicates(d, "x", c("y", "z")), equals(d[c(1L,3L),c("y", "z")]))
-    expect_that(find_duplicates(d, c("x", "y")),      equals(d[c(1L,3L),]))
-    expect_that(find_duplicates(d, c("x", "z")),      equals(d[0L,]))
+    1  2 4")
+    expect_identical(f(data, "x"), data[c(1, 3), ])
+    expect_identical(f(data, "x", c("y", "z")), data[c(1, 3), c("y", "z")])
+    expect_identical(f(data, c("x", "y")), data[c(1, 3), ])
+    expect_identical(f(data, c("x", "z")), data[0, ])
 })
 
 test_that("factors are handled correctly", {
-    d <- utils::read.table(text = "
-    x y z
+    data <- read_table("
+    x  y z
     NA 2 a
-    1 3 b
-    1 2 b
-    ", header = TRUE, stringsAsFactors = TRUE)
-
-    expect_that(find_duplicates(d, "x"),              equals(d[c(2L,3L),]))
-    expect_that(find_duplicates(d, "x", c("y", "z")), equals(d[c(2L,3L),c("y", "z")]))
-    expect_that(find_duplicates(d, c("x", "y")),      equals(d[0L,]))
-    expect_that(find_duplicates(d, c("x", "z")),      equals(d[c(2L,3L),]))
+    1  3 b
+    1  2 b")
+    expect_identical(f(data, "x"), data[c(2, 3), ])
+    expect_identical(f(data, "x", c("y", "z")), data[c(2, 3), c("y", "z")])
+    expect_identical(f(data, c("x", "y")), data[0, ])
+    expect_identical(f(data, c("x", "z")), data[c(2, 3), ])
 })
 
 test_that("character vectors are handled correctly", {
-    d <- utils::read.table(text = "
-    x y z
+    data <- read_table("
+    x  y z
     NA 2 a
-    1 3 b
-    1 2 b
-    ", header = TRUE, stringsAsFactors = FALSE)
-
-    expect_that(find_duplicates(d, "x"),              equals(d[c(2L,3L),]))
-    expect_that(find_duplicates(d, "x", c("y", "z")), equals(d[c(2L,3L),c("y", "z")]))
-    expect_that(find_duplicates(d, c("x", "y")),      equals(d[0L,]))
-    expect_that(find_duplicates(d, c("x", "z")),      equals(d[c(2L,3L),]))
+    1  3 b
+    1  2 b")
+    expect_identical(f(data, "x"), data[c(2, 3), ])
+    expect_identical(f(data, "x", c("y", "z")), data[c(2, 3), c("y", "z")])
+    expect_identical(f(data, c("x", "y")), data[0, ])
+    expect_identical(f(data, c("x", "z")), data[c(2, 3), ])
 })
 
 test_that("we can deal with empty dataframes", {
-    d <- utils::read.table(text = "
-    x y z
-    ", header = TRUE)
-
-    expect_that(find_duplicates(d, "x"),              equals(d[0L,]))
-    expect_that(find_duplicates(d, "x", c("y", "z")), equals(d[0L,c("y","z")]))
-    expect_that(find_duplicates(d, c("x", "y")),      equals(d[0L,]))
-    expect_that(find_duplicates(d, c("x", "z")),      equals(d[0L,]))
+    data <- read_table("
+    x y z")
+    expect_identical(f(data, "x"), data[0, ])
+    expect_identical(f(data, "x", c("y", "z")), data[0, c("y","z")])
+    expect_identical(f(data, c("x", "y")), data[0, ])
+    expect_identical(f(data, c("x", "z")), data[0, ])
 })
 
 test_that("we throw an error when finding non-existing columns", {
-    d <- utils::read.table(text = "
+    data <- read_table("
     x y z
     1 2 3
     4 5 6
-    7 8 9
-    ", header = TRUE)
-
-    expect_that(find_duplicates(d, "w"),              throws_error("nonexistent variables in COLUMNS"))
-    expect_that(find_duplicates(d, "w", c("y", "z")), throws_error("nonexistent variables in COLUMNS"))
-    expect_that(find_duplicates(d, "x", c("w", "z")), throws_error("nonexistent variables in SELECT"))
+    7 8 9")
+    expect_error(f(data, "w"), "nonexistent variables in COLUMNS")
+    expect_error(f(data, "w", c("y", "z")), "nonexistent variables in COLUMNS")
+    expect_error(f(data, "x", c("w", "z")), "nonexistent variables in SELECT")
 })
