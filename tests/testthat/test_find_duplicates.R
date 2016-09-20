@@ -6,16 +6,41 @@ read_table <- function(text) {
     utils::read.table(text = text, header = TRUE)
 }
 
-test_that("simple cases work as expected", {
+test_that("every row is a duplicate", {
+    data <- read_table("
+    x y
+    1 2
+    1 2")
+    expect_identical(f(data, "x"), data)
+    expect_identical(f(data, "y"), f(data, "x"))
+})
+
+test_that("even when selecting a single column we still get back a data frame", {
+    data <- read_table("
+    x y
+    1 2
+    1 2")
+    expect_identical(f(data, "x", "y"), data[, "y", drop = FALSE])
+})
+
+test_that("row names are conserved", {
+    data <- read_table("
+    x y
+    1 2
+    - -
+    1 2")
+    expect_identical(rownames(f(data, "x")), c("1", "3"))
+    expect_identical(rownames(f(data, c("x", "y"))), c("1", "3"))
+})
+
+test_that("pairs of duplicate rows", {
     data <- read_table("
     x y z
     1 2 3
-    1 3 4
-    1 2 4")
-    expect_identical(f(data, "x"), data)
-    expect_identical(f(data, "x", c("y", "z")), data[, c("y", "z")])
-    expect_identical(f(data, c("x", "y")), data[c(1, 3), ])
-    expect_identical(f(data, c("x", "z")), data[c(2, 3), ])
+    1 2 -
+    1 - 3")
+    expect_identical(f(data, c("x", "y")), data[c(1, 2), ])
+    expect_identical(f(data, c("x", "z")), data[c(1, 3), ])
 })
 
 test_that("NAs are handled correctly", {
