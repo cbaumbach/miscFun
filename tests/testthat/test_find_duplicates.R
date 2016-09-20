@@ -75,7 +75,7 @@ test_that("we throw an error when finding non-existing columns", {
     7 8 9
     ", header = TRUE)
 
-    expect_that(find_duplicates(d, "w"),              throws_error("nonexistent variables in COLS"))
-    expect_that(find_duplicates(d, "w", c("y", "z")), throws_error("nonexistent variables in COLS"))
+    expect_that(find_duplicates(d, "w"),              throws_error("nonexistent variables in COLUMNS"))
+    expect_that(find_duplicates(d, "w", c("y", "z")), throws_error("nonexistent variables in COLUMNS"))
     expect_that(find_duplicates(d, "x", c("w", "z")), throws_error("nonexistent variables in SELECT"))
 })

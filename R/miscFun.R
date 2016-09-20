@@ -361,16 +361,16 @@ match_intervals <- function(pos, start, end, id, batch.size = 1000L, quiet = FAL
 #' the selected columns if they agree element-wise in all of the
 #' selected columns.
 #'
-#' @param d Data frame
-#' @param cols Columns in `d' to be checked for duplicates.  Can be a
-#'      character vector of column names or a numeric vector giving
-#'      the column indexes
+#' @param data Data frame
+#' @param columns Columns in \code{data} to be checked for duplicates.
+#'     Can be a character vector of column names or a numeric vector
+#'     giving the column indexes.
 #' @param select Columns to include in resulting data frame
-#' @param sep Separator used for row-wise pasting of values in `cols'
-#'      columns
+#' @param sep Separator used for row-wise pasting of values in
+#'     \code{cols} columns
 #'
-#' @return A data frame containing all rows of `d' that had duplicates
-#' with respect to the selected columns.
+#' @return A data frame containing all rows of \code{data} that had
+#'     duplicates with respect to the selected columns.
 #'
 #' @seealso \code{\link[base]{duplicated}}
 #'
@@ -388,21 +388,23 @@ match_intervals <- function(pos, start, end, id, batch.size = 1000L, quiet = FAL
 #' find_duplicates(d, c("x", "z"))
 #'
 #' @export
-find_duplicates <- function(d, cols, select = colnames(d), sep = "\t") {
-    if (nrow(d) == 0L) return(d[,select])
-    if (any(! cols %in% colnames(d)))
-        stop("nonexistent variables in COLS")
-    if (any(! select %in% colnames(d)))
+find_duplicates <- function(data, columns, select = NULL, sep = "\t") {
+    if (is.null(select))
+        select <- colnames(data)
+    if (nrow(data) == 0L)
+        return(data[, select])
+    if (any(! columns %in% colnames(data)))
+        stop("nonexistent variables in COLUMNS")
+    if (any(! select %in% colnames(data)))
         stop("nonexistent variables in SELECT")
-    if (length(cols) == 1L) {
-        x <- d[,cols]
-        all_na <- is.na(d[,cols])
+    if (length(columns) == 1L) {
+        x <- data[, columns]
+        all_na <- is.na(data[, columns])
+    } else {
+        x <- unname(apply(data[, columns], 1L, paste, collapse = sep))
+        all_na <- apply(data[, columns], 1L, function(x) all(is.na(x)))
     }
-    else {
-        x <- unname(apply(d[,cols], 1L, paste, collapse = sep))
-        all_na <- apply(d[,cols], 1L, function(x) all(is.na(x)))
-    }
-    d[x %in% x[!all_na & duplicated(x)], select, drop = FALSE]
+    data[x %in% x[!all_na & duplicated(x)], select, drop = FALSE]
 }
 
 #' Invert mapping

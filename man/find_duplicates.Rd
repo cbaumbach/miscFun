@@ -4,23 +4,23 @@
 \alias{find_duplicates}
 \title{Extract duplicated rows from data frame.}
 \usage{
-find_duplicates(d, cols, select = colnames(d), sep = "\\t")
+find_duplicates(data, columns, select = NULL, sep = "\\t")
 }
 \arguments{
-\item{d}{Data frame}
+\item{data}{Data frame}
 
-\item{cols}{Columns in `d' to be checked for duplicates.  Can be a
-character vector of column names or a numeric vector giving
-the column indexes}
+\item{columns}{Columns in \code{data} to be checked for duplicates.
+Can be a character vector of column names or a numeric vector
+giving the column indexes.}
 
 \item{select}{Columns to include in resulting data frame}
 
-\item{sep}{Separator used for row-wise pasting of values in `cols'
-columns}
+\item{sep}{Separator used for row-wise pasting of values in
+\code{cols} columns}
 }
 \value{
-A data frame containing all rows of `d' that had duplicates
-with respect to the selected columns.
+A data frame containing all rows of \code{data} that had
+    duplicates with respect to the selected columns.
 }
 \description{
 Extract all rows from a data frame that are duplicates with respect
