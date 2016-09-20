@@ -397,14 +397,8 @@ find_duplicates <- function(data, columns, select = NULL, sep = "\t") {
         stop("nonexistent variables in COLUMNS")
     if (any(! select %in% colnames(data)))
         stop("nonexistent variables in SELECT")
-    if (length(columns) == 1L) {
-        x <- data[, columns]
-        all_na <- is.na(data[, columns])
-    } else {
-        x <- unname(apply(data[, columns], 1L, paste, collapse = sep))
-        all_na <- apply(data[, columns], 1L, function(x) all(is.na(x)))
-    }
-    data[x %in% x[!all_na & duplicated(x)], select, drop = FALSE]
+    key <- do.call(function(...) paste(..., sep = "\r"), data[columns])
+    data[key %in% key[duplicated(key)], select, drop = FALSE]
 }
 
 #' Invert mapping
