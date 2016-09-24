@@ -95,6 +95,8 @@ nuniq <- function(x) {
 #'
 #' @export
 flatten_csv <- function(x, sep = ",", fixed = TRUE) {
+    if (length(x) == 0)
+        return(character())
     unlist(strsplit(x, split = sep, fixed = fixed, perl = !fixed), use.names = FALSE)
 }
 
