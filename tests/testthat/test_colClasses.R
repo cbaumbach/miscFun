@@ -52,3 +52,7 @@ test_that("an invalid format throws an error", {
     for (bad_format in list(character(), "", " ", NA, c("x", "x")))
         expect_error(f(bad_format), error_message)
 })
+
+test_that("the first unknown letter in the format throws an error", {
+    expect_error(colClasses("cYZ"), "unknown letter in format: Y")
+})

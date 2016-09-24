@@ -164,6 +164,8 @@ colClasses <- function(fmt) {
             n <- 1L
             what <- elt
         }
+        if (!what %in% names(map))
+            stop("unknown letter in format: ", what)
         v <- c(rep(map[what], n), v)
     }
     unname(rev(v))
