@@ -1,11 +1,15 @@
 context("flatten_csv")
 
-test_that("flatten_csv works with fixed and regex separators", {
-    x1 <- c("1,2,3", "4,5", "6")
-    x2 <- c("1abc2de3", "4f5", "6")
-    x3 <- c("123", "45", "6")
+f <- flatten_csv
 
-    expect_that(flatten_csv(x1),                                      equals(as.character(1:6)))
-    expect_that(flatten_csv(x2, sep = "[[:alpha:]]+", fixed = FALSE), equals(as.character(1:6)))
-    expect_that(flatten_csv(x3, sep = "",             fixed = FALSE), equals(as.character(1:6)))
+test_that("happy path", {
+    expect_identical(f(c("1", "2,3", "4,5,6")), as.character(1:6))
+})
+
+test_that("the separator can be a regular expression", {
+    expect_identical(f("1 x 2", sep = "[ x]+", fixed = FALSE), c("1", "2"))
+})
+
+test_that("the separator can be the empty string", {
+    expect_identical(f("12", sep = ""), c("1", "2"))
 })
