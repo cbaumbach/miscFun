@@ -1,12 +1,54 @@
 context("colClasses")
 
-test_that("colClasses can deal with invalid input", {
-    expect_that(colClasses("Ncinlrx"), equals(c("NULL", "character", "integer", "numeric", "logical", "raw", "complex")))
-    expect_that(colClasses("2 N 2 c 2 i 2 n 2 l 2 r 2 x"), equals(c("NULL", "NULL", "character", "character", "integer", "integer", "numeric", "numeric", "logical", "logical", "raw", "raw", "complex", "complex")))
-    expect_that(colClasses("NNcciinnllrrxx"), equals(c("NULL", "NULL", "character", "character", "integer", "integer", "numeric", "numeric", "logical", "logical", "raw", "raw", "complex", "complex")))
-    expect_that(colClasses("1N 1c 1i 1n 1l 1r 1x"), equals(c("NULL", "character", "integer", "numeric", "logical", "raw", "complex")))
-    expect_that(colClasses("0N 0c 0i 0n 0l 0r x"), equals("complex"))
-    expect_that(colClasses(""),   throws_error("fmt must be a non-empty, non-NA character vector of length 1"))
-    expect_that(colClasses("  "), throws_error("fmt must be a non-empty, non-NA character vector of length 1"))
-    expect_that(colClasses(NA),   throws_error("fmt must be a non-empty, non-NA character vector of length 1"))
+f <- colClasses
+
+test_that("happy path", {
+    expect_equal(f("Ncinlrx"), c("NULL", "character", "integer", "numeric", "logical", "raw", "complex"))
+})
+
+test_that("c", {
+    expect_equal(f("c"), "character")
+})
+
+test_that("i", {
+    expect_equal(f("i"), "integer")
+})
+
+test_that("l", {
+    expect_equal(f("l"), "logical")
+})
+
+test_that("n", {
+    expect_equal(f("n"), "numeric")
+})
+
+test_that("N", {
+    expect_equal(f("N"), "NULL")
+})
+
+test_that("r", {
+    expect_equal(f("r"), "raw")
+})
+
+test_that("x", {
+    expect_equal(f("x"), "complex")
+})
+
+test_that("we can express repeated elements using counts", {
+    expect_equal(f("2x"), f("xx"))
+})
+
+test_that("a count of 0 expands to nothing", {
+    expect_equal(f("0x"), character())
+    expect_equal(f("r0x"), f("r"))
+})
+
+test_that("spaces are allowed to improve readability", {
+    expect_equal(f("2 r 0 x"), f("2r0x"))
+})
+
+test_that("an invalid format throws an error", {
+    error_message <- "fmt must be a non-empty, non-NA character vector of length 1"
+    for (bad_format in list(character(), "", " ", NA, c("x", "x")))
+        expect_error(f(bad_format), error_message)
 })
