@@ -2,7 +2,7 @@
 % Please edit documentation in R/miscFun.R
 \name{colClasses}
 \alias{colClasses}
-\title{Expand template into \code{\link[utils]{read.table}}'s \code{colClasses} argument}
+\title{Expand template into \code{\link[utils]{read.table}}s \code{colClasses} argument}
 \usage{
 colClasses(fmt)
 }
@@ -12,20 +12,28 @@ colClasses(fmt)
 }
 \value{
 A vector that can be used as the \code{colClasses} argument
-     to \code{\link[utils]{read.table}}.
+    to \code{\link[utils]{read.table}}.
 }
 \description{
-Expand template into \code{\link[utils]{read.table}}'s \code{colClasses} argument
+Expand template into \code{\link[utils]{read.table}}s \code{colClasses} argument
 }
 \details{
-The format allows digits and the letters N, c, i, and n which will
-expand into "NULL", "character", "integer", and "numeric".  The
-digits say how many times the expansion of the character should be
-included in the result.
+The following format letters are available:
+    \tabular{ll}{
+      c\tab "character"\cr
+      i\tab "integer"\cr
+      l\tab "logical"\cr
+      n\tab "numeric"\cr
+      N\tab "NULL"\cr
+      r\tab "raw"\cr
+      x\tab "complex"\cr
+    }
+    The digits say how many times the expansion of the character
+    should be included in the result.
 }
 \examples{
 stopifnot(c("NULL", "NULL", "character", "character", "character",
-     "integer", "numeric") == colClasses(c("2N3cin")))
+    "integer", "numeric") == colClasses(c("2N3cin")))
 
 }
 
