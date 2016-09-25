@@ -816,7 +816,7 @@ read.tables <- function(files, sep = NULL, ncore = 1L, header = TRUE,
     f <- function(filename) {
         if (verbose)
             pr("Reading ", filename)
-        read.table(filename, sep = sep, colClasses = colClasses,
+        utils::read.table(filename, sep = sep, colClasses = colClasses,
             header = header, comment.char = comment.char, ...)
     }
     do.call(rbind, parallel::mclapply(files, f, mc.preschedule = FALSE,
