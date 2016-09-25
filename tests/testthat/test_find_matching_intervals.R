@@ -1,6 +1,6 @@
-context("rcpp_find_matching_intervals")
+context("find_matching_intervals")
 
-f <- rcpp_find_matching_intervals
+f <- find_matching_intervals
 
 expect_no_matching_interval <- function(match) {
     expect_equal(match$position, integer())

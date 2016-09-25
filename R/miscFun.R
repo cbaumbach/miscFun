@@ -1168,6 +1168,30 @@ count_points_per_interval <- function(pos, start, end) {
     n
 }
 
+#' Find intervals containing a set of points
+#'
+#' @param pos Double vector of positions
+#' @param start Double vector with left endpoints of intervals
+#' @param end Double vector with right endpoints of intervals
+#'
+#' @return A list with elements "position" and "interval".  Both are
+#'     integer vectors containing indexes.  The "position" vector
+#'     indexes the \code{pos} vector and the "interval" vector the
+#'     \code{start} and \code{end} vectors.  The kth index in the
+#'     "position" vector forms a pair with the kth index in the
+#'     "interval" vector.  A pair of indexes (i,j) means that
+#'     \code{pos[i]} belongs to the interval defined by
+#'     \code{start[j]} and \code{end[j]}.
+#'
+#' @examples
+#' x <- find_matching_intervals(c(2, 7), c(5, 0, 2), c(9, 1, 3))
+#' stopifnot(identical(x$position, c(1L, 2L)))
+#' stopifnot(identical(x$interval, c(3L, 1L)))
+#' @export
+find_matching_intervals <- function(pos, start, end) {
+    .Call('miscFun_rcpp_find_matching_intervals', PACKAGE = 'miscFun', pos, start, end)
+}
+
 #' Order intervals in increasing order
 #'
 #' @param start Left endpoints of interval

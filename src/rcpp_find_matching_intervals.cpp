@@ -1,20 +1,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-//' Find intervals containing a set of points
-//'
-//' @param pos Double vector of positions
-//' @param start Double vector with left endpoints of intervals
-//' @param end Double vector with right endpoints of intervals
-//'
-//' @return
-//' A list with elements "position" and "interval".  Both are integer
-//' vectors containing indexes.  The "position" vector indexes the
-//' \code{pos} vector and the "interval" vector the \code{start} and
-//' \code{end} vectors.  The kth index in the "position" vector forms
-//' a pair with the kth index in the "interval" vector.  A pair of
-//' indexes (i,j) means that \code{pos[i]} belongs to the interval
-//' defined by \code{start[j]} and \code{end[j]}.
 // [[Rcpp::export]]
 List rcpp_find_matching_intervals(DoubleVector pos, DoubleVector start, DoubleVector end) {
     std::vector<int> index_position;
