@@ -44,7 +44,7 @@ test_that("a count of 0 expands to nothing", {
 })
 
 test_that("spaces are allowed to improve readability", {
-    expect_equal(f("2 r 0 x"), f("2r0x"))
+    expect_equal(f(c("N 2 c i n")), f("N2cin"))
 })
 
 test_that("an invalid format throws an error", {

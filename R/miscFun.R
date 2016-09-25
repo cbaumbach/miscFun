@@ -141,34 +141,24 @@ nfields <- function(con, sep = "\t") {
 #'     to \code{\link[utils]{read.table}}.
 #'
 #' @examples
-#' stopifnot(c("NULL", "NULL", "character", "character", "character",
-#'     "integer", "numeric") == colClasses(c("2N3cin")))
+#' stopifnot(colClasses(c("N 2 c i n")) ==
+#'     c("NULL", "character", "character", "integer", "numeric"))
 #'
 #' @export
 colClasses <- function(fmt) {
-    fmt <- gsub(" ", "", fmt)
-    if (typeof(fmt) != "character" || is.na(fmt) ||
-            length(fmt) != 1L || nchar(fmt) == 0L) {
+    if (!is.character(fmt) || is.na(fmt) || length(fmt) != 1 || grepl("^\\s*$", fmt))
         stop("fmt must be a non-empty, non-NA character vector of length 1")
+    translate <- function(x) {
+        type <- switch(letter <- substr(x, nchar(x), nchar(x)),
+            N = "NULL", c = "character", i = "integer", n = "numeric",
+            l = "logical", r = "raw", x = "complex",
+            stop("unknown letter in format: ", letter))
+        if (nchar(x) == 1)
+            return(type)
+        rep(type, as.integer(substr(x, 1, nchar(x) - 1)))
     }
-    v <- NULL
-    map <- c(N = "NULL", c = "character", i = "integer", n = "numeric",
-             l = "logical", r = "raw", x = "complex")
-    lst <- flatten_csv(fmt, sep = "(?<=[[:alpha:]])", fixed = FALSE)
-    for (elt in lst) {
-        if (nchar(elt) > 1L) {
-            n <- as.integer(substr(elt, 1L, nchar(elt) - 1L))
-            what <- substr(elt, nchar(elt), nchar(elt))
-        }
-        else {
-            n <- 1L
-            what <- elt
-        }
-        if (!what %in% names(map))
-            stop("unknown letter in format: ", what)
-        v <- c(rep(map[what], n), v)
-    }
-    unname(rev(v))
+    groups <- unlist(strsplit(fmt, "(?<=[[:alpha:]])", perl = TRUE), use.names = FALSE)
+    unlist(lapply(trimws(groups), translate), use.names = FALSE)
 }
 
 #' Apply function over level combinations of factors

@@ -32,8 +32,8 @@ The following format letters are available:
     should be included in the result.
 }
 \examples{
-stopifnot(c("NULL", "NULL", "character", "character", "character",
-    "integer", "numeric") == colClasses(c("2N3cin")))
+stopifnot(colClasses(c("N 2 c i n")) ==
+    c("NULL", "character", "character", "integer", "numeric"))
 
 }
 
