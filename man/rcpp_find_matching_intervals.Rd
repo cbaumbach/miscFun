@@ -25,8 +25,4 @@ defined by \code{start[j]} and \code{end[j]}.
 \description{
 Find intervals containing a set of points
 }
-\examples{
-rcpp_find_matching_intervals(c(1.0, 2.0, 3.0), c(2.0, 3.0), c(4.0, 5.0))
-
-}
 

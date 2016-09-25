@@ -15,11 +15,6 @@
 #' a pair with the kth index in the "interval" vector.  A pair of
 #' indexes (i,j) means that \code{pos[i]} belongs to the interval
 #' defined by \code{start[j]} and \code{end[j]}.
-#'
-#' @examples
-#' rcpp_find_matching_intervals(c(1.0, 2.0, 3.0), c(2.0, 3.0), c(4.0, 5.0))
-#'
-#' @export
 rcpp_find_matching_intervals <- function(pos, start, end) {
     .Call('miscFun_rcpp_find_matching_intervals', PACKAGE = 'miscFun', pos, start, end)
 }
