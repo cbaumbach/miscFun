@@ -42,3 +42,9 @@ test_that("we are not limited to the range of integers", {
     x <- .Machine$integer.max + 2
     expect_equal(f(x, x, x)$interval, 1)
 })
+
+test_that("integer values work as well", {
+    actual <- f(5L, 3L, 7L)
+    expect_equal(actual$position, 1)
+    expect_equal(actual$interval, 1)
+})
