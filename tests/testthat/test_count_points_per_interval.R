@@ -19,7 +19,7 @@ test_that("[*, NA] contains no points", {
 })
 
 test_that("an error is thrown if start and end are not of the same length", {
-    expect_error(f(0, 1, 2:3), "START and END must have same length")
+    expect_error(f(0, 1, 2:3), "START and END must have the same length.")
 })
 
 test_that("unsorted intervals are allowed", {

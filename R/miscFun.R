@@ -1151,7 +1151,7 @@ cluster1d <- function(x, gap, frac = NULL) {
 #' @export
 count_points_per_interval <- function(pos, start, end) {
     if (length(start) != length(end))
-        stop("START and END must have same length")
+        stop("START and END must have the same length.")
     pos <- as.double(pos)
     start <- as.double(start)
     end <- as.double(end)
