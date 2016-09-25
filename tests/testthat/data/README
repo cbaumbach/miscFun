@@ -1,0 +1,2 @@
+This file exists in this directory to prevent R from removing the
+directory as empty when building the package.

@@ -16,5 +16,3 @@ test_that("instead of a filename we can also pass a connection", {
     con <- textConnection("A B C")
     expect_equal(nfields(con, sep = " "), 3)
 })
-
-file.remove(filename)
