@@ -48,3 +48,7 @@ test_that("integer values work as well", {
     expect_equal(actual$position, 1)
     expect_equal(actual$interval, 1)
 })
+
+test_that("start and end must have the same length", {
+    expect_error(f(0, 1, 1:2), "START and END must have the same length.")
+})

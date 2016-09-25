@@ -1189,6 +1189,8 @@ count_points_per_interval <- function(pos, start, end) {
 #' stopifnot(identical(x$interval, c(3L, 1L)))
 #' @export
 find_matching_intervals <- function(pos, start, end) {
+    if (length(start) != length(end))
+        stop("START and END must have the same length.")
     .Call('miscFun_rcpp_find_matching_intervals', PACKAGE = 'miscFun', pos, start, end)
 }
 
