@@ -7,34 +7,37 @@
 ave2(x, factors, f, ...)
 }
 \arguments{
-\item{x}{Vector which will be grouped according to `factors' and to
-which `f' will be applied}
+\item{x}{Atomic vector}
 
-\item{factors}{List of factors, each of the same length as `x',
-according to whose level combinations `x' will be grouped}
+\item{factors}{List of factors of the same length as \code{x}.}
 
-\item{f}{Function that will be applied to grouped subsets of `x'}
+\item{f}{Function}
 
-\item{\dots}{Further arguments to `f'}
+\item{\dots}{Further arguments to \code{f}}
 }
 \value{
-A vector of the same length as `x'.  Every subset of `x'
-     will get the value obtained by applying `f' to it.
+A vector of the same length as \code{x}.  Subsets of the
+    result vector equal the result of applying \code{f} to the
+    corresponding subsets of \code{x}.
 }
 \description{
-Group a vector `x' into groups according to level combinations of
-the factors in `factors' and apply `f' to every subset of `x'
-separately.  The function \code{ave2} differs from
-\code{\link[stats]{ave}} in the way arguments are specified and,
-more importantly, in the fact that additional arguments to the
-function `f' can be specified via `\dots'.
+Group a vector into subsets according to level
+    combinations of one or several factors and apply a function
+    separately to every subset.  This function differs from
+    \code{\link[stats]{ave}} in three respects.  Firstly, factors
+    have to be supplied in an explicit list.  Secondly, the
+    function is a positional parameter.  Thirdly and most
+    importantly, there is now a way to supply any number of
+    additional arguments to the function via \code{\dots} as in the
+    apply-family of functions.
 }
 \examples{
-fact1 <- rep(1:2, each = 4L)
-fact2 <- rep(c("A","B"), length.out = 8L)
-x <- 1:8
-ave2(x, list(fact1, fact2), function(x, k) k * sum(x), 3)
-
+stopifnot(identical(
+    ave2(c(1, 2, 3, 4), list(c(1, 1, 2, 2)),
+        function(x, sep) {
+            paste(x, rev(x), sep = sep)
+        }, "-"),
+    c("1-2", "2-1", "3-4", "4-3")))
 }
 \seealso{
 \code{\link[stats]{ave}}
