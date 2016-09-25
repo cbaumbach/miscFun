@@ -12,6 +12,10 @@ test_that("happy path", {
     expect_equal(actual, expected)
 })
 
+test_that("factors must have the same length as x", {
+    expect_error(ave2(1, list(1:2), sum), "Vectors in argument \"factors\" must have same length as argument \"x\".")
+})
+
 test_that("the \"factors\" argument must not be NULL", {
     expect_error(ave2(1, NULL, sum), "Argument \"factors\" must not be NULL.")
 })

@@ -197,6 +197,8 @@ ave2 <- function (x, factors, f, ...) {
     if (length(factors) == 0)
         stop("Argument \"factors\" must not be of length 0.")
     grouping <- interaction(factors)
+    if (length(grouping) != length(x))
+        stop("Vectors in argument \"factors\" must have same length as argument \"x\".")
     split(x, grouping) <- lapply(split(x, grouping), f, ...)
     x
 }
