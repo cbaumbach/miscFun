@@ -192,14 +192,12 @@ colClasses <- function(fmt) {
 #'     c("1-2", "2-1", "3-4", "4-3")))
 #' @export
 ave2 <- function (x, factors, f, ...) {
-    if (missing(factors))
-        stop("`factors' must not be missing.")
-    else if (is.null(factors))
-        stop("`factors' must not be `NULL'.")
-    else if (length(factors) == 0L)
-        stop("`factors' must not be of length 0.")
-    g <- interaction(factors)
-    split(x, g) <- lapply(split(x, g), f, ...)
+    if (is.null(factors))
+        stop("Argument \"factors\" must not be NULL.")
+    if (length(factors) == 0)
+        stop("Argument \"factors\" must not be of length 0.")
+    grouping <- interaction(factors)
+    split(x, grouping) <- lapply(split(x, grouping), f, ...)
     x
 }
 
