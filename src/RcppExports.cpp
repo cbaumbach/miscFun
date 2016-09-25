@@ -6,14 +6,14 @@
 using namespace Rcpp;
 
 // rcpp_find_matching_intervals
-List rcpp_find_matching_intervals(IntegerVector pos, IntegerVector start, IntegerVector end);
+List rcpp_find_matching_intervals(DoubleVector pos, DoubleVector start, DoubleVector end);
 RcppExport SEXP miscFun_rcpp_find_matching_intervals(SEXP posSEXP, SEXP startSEXP, SEXP endSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerVector >::type pos(posSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type start(startSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type end(endSEXP);
+    Rcpp::traits::input_parameter< DoubleVector >::type pos(posSEXP);
+    Rcpp::traits::input_parameter< DoubleVector >::type start(startSEXP);
+    Rcpp::traits::input_parameter< DoubleVector >::type end(endSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_find_matching_intervals(pos, start, end));
     return rcpp_result_gen;
 END_RCPP

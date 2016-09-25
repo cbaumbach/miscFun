@@ -1,43 +1,37 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-static bool is_na_interval(int start, int end) {
-    return (start == NA_INTEGER) || (end == NA_INTEGER);
-}
-
-static bool belongs_to_closed_interval(int pos, int start, int end) {
-    return (start <= pos) && (pos <= end);
-}
-
 //' Find intervals containing a set of points
 //'
-//' @param pos Integer vector of positions
-//' @param start Integer vector with left endpoints of intervals
-//' @param end Integer vector with right endpoints of intervals
+//' @param pos Double vector of positions
+//' @param start Double vector with left endpoints of intervals
+//' @param end Double vector with right endpoints of intervals
 //'
 //' @return
-//' A list with two elements named "position" and "interval".  Both
-//' are integer vectors of indexes.  The "position" vector indexes the
-//' `pos` argument and the "interval" vector the `start` and `end`
-//' arguments.  The kth index in the "position" vector forms a pair
-//' with the kth index in the "interval" vector.  A pair of indexes
-//' (i,j) means that \code{pos[i]} belongs to the interval defined by
-//' \code{start[j]} and \code{end[j]}.
+//' A list with elements "position" and "interval".  Both are integer
+//' vectors containing indexes.  The "position" vector indexes the
+//' \code{pos} vector and the "interval" vector the \code{start} and
+//' \code{end} vectors.  The kth index in the "position" vector forms
+//' a pair with the kth index in the "interval" vector.  A pair of
+//' indexes (i,j) means that \code{pos[i]} belongs to the interval
+//' defined by \code{start[j]} and \code{end[j]}.
 //'
 //' @examples
-//' rcpp_find_matching_intervals(1:3, 2:3, 4:5)
+//' rcpp_find_matching_intervals(c(1.0, 2.0, 3.0), c(2.0, 3.0), c(4.0, 5.0))
 //'
 //' @export
 // [[Rcpp::export]]
-List rcpp_find_matching_intervals(IntegerVector pos, IntegerVector start, IntegerVector end) {
+List rcpp_find_matching_intervals(DoubleVector pos, DoubleVector start, DoubleVector end) {
     std::vector<int> index_position;
     std::vector<int> index_interval;
     for (int i = 0; i < pos.size(); i++) {
-        int position = pos[i];
+        double position = pos[i];
         for (int j = 0; j < start.size(); j++) {
-            if (is_na_interval(start[i], end[i]))
+            double lower = start[j];
+            double upper = end[j];
+            if (NumericVector::is_na(lower) || NumericVector::is_na(upper))
                 continue;
-            if (belongs_to_closed_interval(position, start[j], end[j])) {
+            if (lower <= position && position <= upper) {
                 index_position.push_back(i + 1);
                 index_interval.push_back(j + 1);
             }

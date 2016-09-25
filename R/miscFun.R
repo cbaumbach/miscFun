@@ -1152,11 +1152,14 @@ cluster1d <- function(x, gap, frac = NULL) {
 count_points_per_interval <- function(pos, start, end) {
     if (length(start) != length(end))
         stop("START and END must have same length")
+    pos <- as.double(pos)
+    start <- as.double(start)
+    end <- as.double(end)
     inf_intervals <- is.infinite(start) | is.infinite(end)
-    start[inf_intervals] <- 0L
-    end[inf_intervals] <- 0L
+    start[inf_intervals] <- 0
+    end[inf_intervals] <- 0
     inf_points <- is.infinite(pos)
-    pos[inf_points] <- NA
+    pos[inf_points] <- NA_real_
     intervals <- rcpp_find_matching_intervals(pos, start, end)$interval
     stopifnot(all(intervals %in% seq_along(start)))
     counts <- factor(intervals, levels = seq_along(start))

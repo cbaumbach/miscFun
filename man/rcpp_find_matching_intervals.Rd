@@ -7,26 +7,26 @@
 rcpp_find_matching_intervals(pos, start, end)
 }
 \arguments{
-\item{pos}{Integer vector of positions}
+\item{pos}{Double vector of positions}
 
-\item{start}{Integer vector with left endpoints of intervals}
+\item{start}{Double vector with left endpoints of intervals}
 
-\item{end}{Integer vector with right endpoints of intervals}
+\item{end}{Double vector with right endpoints of intervals}
 }
 \value{
-A list with two elements named "position" and "interval".  Both
-are integer vectors of indexes.  The "position" vector indexes the
-`pos` argument and the "interval" vector the `start` and `end`
-arguments.  The kth index in the "position" vector forms a pair
-with the kth index in the "interval" vector.  A pair of indexes
-(i,j) means that \code{pos[i]} belongs to the interval defined by
-\code{start[j]} and \code{end[j]}.
+A list with elements "position" and "interval".  Both are integer
+vectors containing indexes.  The "position" vector indexes the
+\code{pos} vector and the "interval" vector the \code{start} and
+\code{end} vectors.  The kth index in the "position" vector forms
+a pair with the kth index in the "interval" vector.  A pair of
+indexes (i,j) means that \code{pos[i]} belongs to the interval
+defined by \code{start[j]} and \code{end[j]}.
 }
 \description{
 Find intervals containing a set of points
 }
 \examples{
-rcpp_find_matching_intervals(1:3, 2:3, 4:5)
+rcpp_find_matching_intervals(c(1.0, 2.0, 3.0), c(2.0, 3.0), c(4.0, 5.0))
 
 }
 
