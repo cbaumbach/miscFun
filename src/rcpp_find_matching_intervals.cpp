@@ -9,10 +9,6 @@ static bool belongs_to_closed_interval(int pos, int start, int end) {
     return (start <= pos) && (pos <= end);
 }
 
-static int find_index_of_first_element_greater_than(int value, IntegerVector& xs) {
-    return std::upper_bound(xs.begin(), xs.end(), value) - xs.begin();
-}
-
 //' Find intervals containing a set of points
 //'
 //' @param pos Integer vector of positions
@@ -38,8 +34,7 @@ List rcpp_find_matching_intervals(IntegerVector pos, IntegerVector start, Intege
     std::vector<int> index_interval;
     for (int i = 0; i < pos.size(); i++) {
         int position = pos[i];
-        int last_index = find_index_of_first_element_greater_than(position, start);
-        for (int j = 0; j < last_index; j++) {
+        for (int j = 0; j < start.size(); j++) {
             if (is_na_interval(start[i], end[i]))
                 continue;
             if (belongs_to_closed_interval(position, start[j], end[j])) {
