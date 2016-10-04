@@ -206,75 +206,45 @@ ave2 <- function (x, factors, f, ...) {
 #' Return modified names of object
 #'
 #' @param x Object whose \code{names} should be modified
-#' @param old2new Named character vector whose name tags correspond to
-#'     the old names of \code{x} and whose elements correspond to the
-#'     new names of \code{x}.
-#' @param warn If TRUE (default), warn about stuff (see Details)
+#' @param old2new Named character vector whose \"names\" attribute
+#'     matches all, some, or none of the names of \code{x} and whose
+#'     elements will be used to make up the new names of \code{x}.
 #'
-#' @return Return a character vector that can be used to change the
-#'     \code{names} attribute of \code{x} in place using
-#'     \code{\link[base]{names<-}}.
+#' @return Return a character vector that can be used with
+#'     \code{\link[base]{names<-}} to change the names of \code{x}.
 #'
 #' @details The \code{rename} function does not modify \code{x} and
 #'     thereby avoids potentially expensive copies due to R's
-#'     copy-on-modify semantics.  If you want to change the
-#'     \code{names} attribute of \code{x} in a non-expensive way, use
-#'     \code{\link[base]{names<-}} with \code{x} and the result of the
-#'     call to \code{rename}.
+#'     copy-on-modify semantics.  Use \code{\link[base]{names<-}} with
+#'     the result of \code{rename} to change the names of \code{x} in
+#'     a non-expensive way.
 #'
 #'     Note that \code{old2new} does not have to contain new values
 #'     for all elements of \code{names(x)}.  If an element of
-#'     \code{names(x)} is not among the tags in \code{old2new}, it
-#'     will be unchanged.  If \code{old2new} contains the same tag
-#'     more than once, the first element with the given tag will be
-#'     used for changing the matching element in \code{names(x)}. If
-#'     \code{old2new} contains a mixture of tagged and untagged
-#'     elements, the untagged elements are implicitly tagged by the
-#'     emptystring ("").  If \code{old2new} has no \code{names}
-#'     attribute, the unmodified \code{names} attribute of \code{x} is
-#'     returned.
-#'
-#'     Unless \code{warn} is FALSE \code{rename} will issue a warning if
-#'     \enumerate{
-#'       \item \code{old2new} contains non-empty (non-"") tags that do
-#'           not match any element of \code{names(x)}
-#'       \item the \code{names} attribute of \code{old2new} is NULL
-#'       \item \code{names(x)} contains duplicates after renaming
-#'     }
+#'     \code{names(x)} is not among \code{names(old2new)}, it will be
+#'     unchanged.  In particular, if \code{old2new} and \code{x} have
+#'     no names in common, \code{rename} will return \code{names(x)}.
+#'     It is an error for \code{names(old2new)} to contain duplicate
+#'     names.  It is okay for \code{old2new} to contain a mixture of
+#'     named and unnamed elements.  Unnamed elements of \code{x} will
+#'     never be renamed.
 #'
 #' @examples
-#' x <- c(a = 1, b = 2, c = 3, `9` = 9)
-#' old2new <- c(a = "A", b = "B", c = NA, "foo", g = "G", a = "X", `9` = "nine")
-#' names(x) <- rename(x, old2new)
+#' rename(c(a = 1, b = 2, c = 3, 4, `9` = 9),
+#'     c(a = "A", b = NA, "foo", g = "G", `9` = "nine"))
+#'
 #' @export
-rename <- function(x, old2new, warn = TRUE) {
+rename <- function(x, old2new) {
+    if (is.null(names(x)))
+        stop("x must have names")
+    if (is.null(names(old2new)))
+        stop("old2new must have names")
+    if (anyDuplicated(names(old2new)))
+        stop("old2new must not have duplicate names")
     old_names <- new_names <- names(x)
-    # Warn about NULL `names' attribute of `old2new'.
-    if (is.null(names(old2new))) {
-        if (warn)
-            warning("`names' attribute of `old2new' is NULL.")
-        return(old_names)
-    }
-    # Warn if any non-empty (non-"") name tags in `old2new' don't
-    # match in `names(x)'.
-    if (warn) {
-        non_matching <- ! names(old2new) %in% old_names
-        non_empty <- names(old2new) != ""
-        if (any(non_matching & non_empty))
-            warning("The following name tags from `old2new' don't ",
-                "match any element of `names(x)': ",
-                paste(double_quote(names(old2new)[non_matching & non_empty]),
-                    collapse = ", "))
-    }
     idx <- old_names %in% names(old2new)
-    new_names[idx] <- old2new[ old_names[idx] ]
-    # Warn if new `names' attribute contains duplicates.
-    if (warn) {
-        dupl <- new_names[duplicated(new_names)]
-        if (length(dupl))
-            warning("Duplicates after renaming: ",
-                paste(double_quote(dupl), collapse = ", "))
-    }
+    new_names[idx] <- old2new[old_names[idx]]
+    new_names[names(x) == ""] <- ""
     new_names
 }
 
