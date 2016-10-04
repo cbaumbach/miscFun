@@ -241,11 +241,11 @@ rename <- function(x, mapping) {
         stop("mapping must have names")
     if (anyDuplicated(names(mapping)))
         stop("mapping must not have duplicate names")
-    old_names <- new_names <- names(x)
-    idx <- old_names %in% names(mapping)
-    new_names[idx] <- mapping[old_names[idx]]
-    new_names[names(x) == ""] <- ""
-    new_names
+    result <- names(x)
+    matched <- names(x) %in% names(mapping)
+    result[matched] <- mapping[names(x)[matched]]
+    result[names(x) == ""] <- ""
+    result
 }
 
 #' Match positions to intervals
