@@ -4,12 +4,12 @@
 \alias{rename}
 \title{Return modified names of object}
 \usage{
-rename(x, old2new)
+rename(x, mapping)
 }
 \arguments{
 \item{x}{Object whose \code{names} should be modified}
 
-\item{old2new}{Named character vector whose \"names\" attribute
+\item{mapping}{Named character vector whose \"names\" attribute
 matches all, some, or none of the names of \code{x} and whose
 elements will be used to make up the new names of \code{x}.}
 }
@@ -27,18 +27,18 @@ The \code{rename} function does not modify \code{x} and
     the result of \code{rename} to change the names of \code{x} in
     a non-expensive way.
 
-    Note that \code{old2new} does not have to contain new values
+    Note that \code{mapping} does not have to contain new values
     for all elements of \code{names(x)}.  If an element of
-    \code{names(x)} is not among \code{names(old2new)}, it will be
-    unchanged.  In particular, if \code{old2new} and \code{x} have
+    \code{names(x)} is not among \code{names(mapping)}, it will be
+    unchanged.  In particular, if \code{mapping} and \code{x} have
     no names in common, \code{rename} will return \code{names(x)}.
-    It is an error for \code{names(old2new)} to contain duplicate
-    names.  It is okay for \code{old2new} to contain a mixture of
+    It is an error for \code{names(mapping)} to contain duplicate
+    names.  It is okay for \code{mapping} to contain a mixture of
     named and unnamed elements.  Unnamed elements of \code{x} will
     never be renamed.
 }
 \examples{
-rename(c(a = 1, b = 2, c = 3, `9` = 9),
+rename(c(a = 1, b = 2, c = 3, 4, `9` = 9),
     c(a = "A", b = NA, "foo", g = "G", `9` = "nine"))
 
 }

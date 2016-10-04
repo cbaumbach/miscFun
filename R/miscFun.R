@@ -206,7 +206,7 @@ ave2 <- function (x, factors, f, ...) {
 #' Return modified names of object
 #'
 #' @param x Object whose \code{names} should be modified
-#' @param old2new Named character vector whose \"names\" attribute
+#' @param mapping Named character vector whose \"names\" attribute
 #'     matches all, some, or none of the names of \code{x} and whose
 #'     elements will be used to make up the new names of \code{x}.
 #'
@@ -219,13 +219,13 @@ ave2 <- function (x, factors, f, ...) {
 #'     the result of \code{rename} to change the names of \code{x} in
 #'     a non-expensive way.
 #'
-#'     Note that \code{old2new} does not have to contain new values
+#'     Note that \code{mapping} does not have to contain new values
 #'     for all elements of \code{names(x)}.  If an element of
-#'     \code{names(x)} is not among \code{names(old2new)}, it will be
-#'     unchanged.  In particular, if \code{old2new} and \code{x} have
+#'     \code{names(x)} is not among \code{names(mapping)}, it will be
+#'     unchanged.  In particular, if \code{mapping} and \code{x} have
 #'     no names in common, \code{rename} will return \code{names(x)}.
-#'     It is an error for \code{names(old2new)} to contain duplicate
-#'     names.  It is okay for \code{old2new} to contain a mixture of
+#'     It is an error for \code{names(mapping)} to contain duplicate
+#'     names.  It is okay for \code{mapping} to contain a mixture of
 #'     named and unnamed elements.  Unnamed elements of \code{x} will
 #'     never be renamed.
 #'
@@ -234,16 +234,16 @@ ave2 <- function (x, factors, f, ...) {
 #'     c(a = "A", b = NA, "foo", g = "G", `9` = "nine"))
 #'
 #' @export
-rename <- function(x, old2new) {
+rename <- function(x, mapping) {
     if (is.null(names(x)))
         stop("x must have names")
-    if (is.null(names(old2new)))
-        stop("old2new must have names")
-    if (anyDuplicated(names(old2new)))
-        stop("old2new must not have duplicate names")
+    if (is.null(names(mapping)))
+        stop("mapping must have names")
+    if (anyDuplicated(names(mapping)))
+        stop("mapping must not have duplicate names")
     old_names <- new_names <- names(x)
-    idx <- old_names %in% names(old2new)
-    new_names[idx] <- old2new[old_names[idx]]
+    idx <- old_names %in% names(mapping)
+    new_names[idx] <- mapping[old_names[idx]]
     new_names[names(x) == ""] <- ""
     new_names
 }
