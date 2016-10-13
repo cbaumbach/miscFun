@@ -43,12 +43,13 @@ test_that("pairs of duplicate rows", {
     expect_identical(f(data, c("x", "z")), data[c(1, 3), ])
 })
 
-test_that("repeated NA values are considered as duplicates", {
+test_that("repeated NA values are not considered as duplicates", {
     data <- read_table("
     x  y
     NA 2
     NA 2")
-    expect_identical(f(data, "x"), data)
+    zero_rows <- data[integer(), ]
+    expect_identical(f(data, "x"), zero_rows)
 })
 
 test_that("NA values never count as duplicates of non-NA values", {

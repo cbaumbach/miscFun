@@ -315,7 +315,7 @@ find_duplicates <- function(data, columns, select = NULL) {
     if (any(select %not_in% colnames(data)))
         stop("nonexistent variables in SELECT")
     key <- Reduce(function(x, y) paste(x, y, sep = "\r"), data[columns])
-    data[key %in% key[duplicated(key)], select, drop = FALSE]
+    data[is_duplicated_in(key), select, drop = FALSE]
 }
 
 #' Duplicated elements
