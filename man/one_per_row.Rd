@@ -4,34 +4,34 @@
 \alias{one_per_row}
 \title{One value per row}
 \usage{
-one_per_row(d, cols, sep = ",")
+one_per_row(data, columns, sep = ",")
 }
 \arguments{
+\item{sep}{Separator used in multi-value entries}
+
 \item{d}{Data frame}
 
 \item{cols}{Columns of data frame in which to spread multi-value
 entries across multiple rows}
-
-\item{sep}{Separator used in multi-value entries}
 }
 \value{
 A data frame with the same columns as `d' but where there
 is only one value per row in the columns `cols'.
 }
 \description{
-In a data frame with a column or columns where entries can consist
-of a comma-separated list of values, split entries with multiple
-values and put them into separate rows.  Eventually there will be
+In a data frame with a column or columns where entries are
+comma-separated lists of values, split entries with multiple
+values, and put them into separate rows.  Eventually there will be
 only "one value per row" in the specified column(s).
 }
 \examples{
 d <- read.table(text = "
-x y z
-1 a,c A,C
-2 b,d B,D
-3 e E
+    x y z
+    1 a,c A,C
+    2 b,d B,D
+    3 e E
 ", header = TRUE, stringsAsFactors = FALSE)
-one_per_row(d, c("y","z"))
+one_per_row(d, c("y", "z"))
 
 }
 

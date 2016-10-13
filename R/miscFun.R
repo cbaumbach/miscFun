@@ -377,9 +377,10 @@ invert_map <- function(map) {
 #' One value per row
 #'
 #' @description
-#' In a data frame with a column or columns where entries can consist
-#' of a comma-separated list of values, split entries with multiple
-#' values and put them into separate rows.  Eventually there will be
+#'
+#' In a data frame with a column or columns where entries are
+#' comma-separated lists of values, split entries with multiple
+#' values, and put them into separate rows.  Eventually there will be
 #' only "one value per row" in the specified column(s).
 #'
 #' @param d Data frame
@@ -392,26 +393,26 @@ invert_map <- function(map) {
 #'
 #' @examples
 #' d <- read.table(text = "
-#' x y z
-#' 1 a,c A,C
-#' 2 b,d B,D
-#' 3 e E
+#'     x y z
+#'     1 a,c A,C
+#'     2 b,d B,D
+#'     3 e E
 #' ", header = TRUE, stringsAsFactors = FALSE)
-#' one_per_row(d, c("y","z"))
+#' one_per_row(d, c("y", "z"))
 #'
 #' @export
-one_per_row <- function(d, cols, sep = ",") {
-    if (length(cols) == 0L)
-        stop("COLS must be of length >= 1")
-    the_col <- cols[1L]
-    x <- strsplit(d[,the_col], sep)
-    times <- sapply(x, length)
-    d <- d[rep(seq_len(nrow(d)), times = times),]
-    d[the_col] <- unname(unlist(x))
-    rownames(d) <- NULL
-    if (length(cols) > 1)
-        return(one_per_row(d, cols = cols[-1], sep = sep))
-    d
+one_per_row <- function(data, columns, sep = ",") {
+    if (length(columns) == 0)
+        stop("COLUMNS must be of length >= 1")
+    col <- columns[1]
+    x <- strsplit(data[[col]], sep)
+    duplicate_some_rows <- rep(seq_len(nrow(data)), times = sapply(x, length))
+    data2 <- data[duplicate_some_rows, ]
+    data2[[col]] <- unlist(x, use.names = FALSE)
+    if (length(columns) > 1)
+        return(one_per_row(data2, columns[-1], sep))
+    rownames(data2) <- NULL
+    data2
 }
 
 #' One value per vector element
