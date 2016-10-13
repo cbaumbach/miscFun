@@ -352,24 +352,23 @@ is_duplicated_in <- function(x) {
     Negate(`%in%`)(x, table)
 }
 
-#' Invert mapping
+#' Inverting a map
 #'
 #' @description
-#' Given a mapping implemented as a named list, return the inverse
-#' mapping, again implemented as a list.
+#' Given a named list, that is, a map, return the inverse map.
 #'
-#' @param map A named list representing a mapping
+#' @param map A named list
 #'
 #' @details NA values are dropped during the inversion.
 #'
-#' @return A list representing the inverse of mapping of `map'
+#' @return A list representing the inverse of \code{map}
 #'
 #' @examples
-#' map <- list(a = c("A","C"), b = c("B","C",NA))
-#' rev_map(map)
+#' map <- list(a = c("A", "C"), b = c("B", "C", NA))
+#' invert_map(map)
 #'
 #' @export
-rev_map <- function(map) {
+invert_map <- function(map) {
     values <- unlist(map, use.names = FALSE)
     times <- sapply(map, length)
     names(values) <- rep(names(map), times = times)
