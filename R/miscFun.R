@@ -286,7 +286,7 @@ match_intervals <- function(point, start, end) {
 #' @return A data frame containing all rows of \code{data} that had
 #'     duplicates with respect to the selected columns.
 #'
-#' @seealso \code{\link[base]{duplicated}}
+#' @seealso \code{\link[base]{duplicated}} and \code{\link{is_duplicated_in}}
 #'
 #' @examples
 #' d <- read.table(text = "
