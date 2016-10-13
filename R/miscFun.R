@@ -272,21 +272,24 @@ match_intervals <- function(point, start, end) {
 #' Extract duplicated rows from data frame.
 #'
 #' @description
-#' Extract all rows from a data frame that are duplicates with respect
-#' to the specified columns.  Two rows are duplicates with respect to
-#' the selected columns if they agree element-wise in all of the
-#' selected columns.
+#' Extract all rows from a data frame that occur more than once when
+#' compared in terms of the columns specified in \code{columns}.  Two
+#' rows are duplicates with respect to the columns specified in
+#' \code{columns} if they agree element-wise in all of the specified
+#' columns.
 #'
 #' @param data Data frame
-#' @param columns Columns in \code{data} to be checked for duplicates.
-#'     Can be a character vector of column names or a numeric vector
-#'     giving the column indexes.
-#' @param select Columns to include in resulting data frame
+#' @param columns Columns in \code{data} to be considered when looking
+#'     for duplicated rows.  Can be a character vector of column names
+#'     or a numeric vector giving the column indexes.
+#' @param select Columns to include in resulting data frame.  By
+#'     default all columns will be included.
 #'
 #' @return A data frame containing all rows of \code{data} that had
-#'     duplicates with respect to the selected columns.
+#'     duplicates with respect to the columns specified in
+#'     \code{columns}.
 #'
-#' @seealso \code{\link[base]{duplicated}} and \code{\link{is_duplicated_in}}
+#' @seealso \code{\link{is_duplicated_in}}
 #'
 #' @examples
 #' d <- read.table(text = "

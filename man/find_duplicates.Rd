@@ -9,21 +9,24 @@ find_duplicates(data, columns, select = NULL)
 \arguments{
 \item{data}{Data frame}
 
-\item{columns}{Columns in \code{data} to be checked for duplicates.
-Can be a character vector of column names or a numeric vector
-giving the column indexes.}
+\item{columns}{Columns in \code{data} to be considered when looking
+for duplicated rows.  Can be a character vector of column names
+or a numeric vector giving the column indexes.}
 
-\item{select}{Columns to include in resulting data frame}
+\item{select}{Columns to include in resulting data frame.  By
+default all columns will be included.}
 }
 \value{
 A data frame containing all rows of \code{data} that had
-    duplicates with respect to the selected columns.
+    duplicates with respect to the columns specified in
+    \code{columns}.
 }
 \description{
-Extract all rows from a data frame that are duplicates with respect
-to the specified columns.  Two rows are duplicates with respect to
-the selected columns if they agree element-wise in all of the
-selected columns.
+Extract all rows from a data frame that occur more than once when
+compared in terms of the columns specified in \code{columns}.  Two
+rows are duplicates with respect to the columns specified in
+\code{columns} if they agree element-wise in all of the specified
+columns.
 }
 \examples{
 d <- read.table(text = "
@@ -40,6 +43,6 @@ find_duplicates(d, c("x", "z"))
 
 }
 \seealso{
-\code{\link[base]{duplicated}} and \code{\link{is_duplicated_in}}
+\code{\link{is_duplicated_in}}
 }
 
