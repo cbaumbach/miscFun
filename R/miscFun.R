@@ -245,83 +245,28 @@ rename <- function(x, mapping) {
     result
 }
 
-#' Match positions to intervals
+#' Find intervals containing points
 #'
-#' @param pos Integer vector with positions
-#' @param start Integer vector with interval start positions
-#' @param end Integer vector with interval end positions
-#' @param id Vector with interval ids
-#' @param batch.size Number of positions in `pos' that are processed at a time
-#' @param quiet Report progress if FALSE (default)
+#' @param point Points
+#' @param start Lower boundaries of intervals
+#' @param end Upper boundaries of intervals
 #'
-#' @return A character vector of the same length as `pos' where every
-#' entry is a comma-separated string containing the ids of all
-#' intervals the associated position in `pos' falls into.  If a
-#' position does not fall into any of the intervals, the empty string
-#' is returned.
+#' @return A list of the same length as \code{point} where element
+#'     \code{i} contains the indexes of closed intervals
+#'     [\code{start}, \code{end}] containing \code{point[k]}.
+#'     \code{NA} points result in an \code{NA} vector of indexes.
+#'     Points that don't belong to any interval result in a length-0
+#'     vector of indexes.
 #'
-#' @examples
-#' pos   <- c(1L,2L,3L)
-#' start <- c(0L,1L,4L)
-#' end   <- c(1L,2L,5L)
-#' id    <- c(1L,2L,3L)
-#' match_intervals(pos, start, end, id)
+#' @seealso \code{\link{find_matching_intervals}}
 #'
 #' @export
-match_intervals <- function(pos, start, end, id, batch.size = 1000L, quiet = FALSE) {
-    stopifnot(length(start) > 0L)
-    stopifnot(length(end) == length(start))
-    stopifnot(length(id) == length(start))
-    stopifnot(length(pos) > 0L)
-    # Remove intervals with missings.
-    is_missing <- is.na(start) | is.na(end) | is.na(id)
-    start <- start[!is_missing]
-    end <- end[!is_missing]
-    id <- id[!is_missing]
-    if (length(start) == 0L)
-        return(rep("", length(pos)))
-    fun <- function(pos) {
-        # Create a matrix with length(START) rows and length(POS)
-        # columns, where every row is equal to POS.  For example,
-        # if pos = c(1, 2, 3, 4), and length(start) = 3, then
-        #       |1 2 3 4|
-        # mat = |1 2 3 4|
-        #       |1 2 3 4|
-        mat <- matrix(pos, ncol = length(pos), nrow = length(start), byrow = TRUE)
-        # Compare every column with interval start and end positions.
-        # The result of the comparison is a matrix of the same
-        # dimensions as MAT.
-        value <- start <= mat & mat <= end
-        # For every column of VALUE, find the TRUE indexes.
-        idx_list <- lapply(split(value, col(value)), which)
-        # For every position in POS, collapse the names of intervals
-        # overlapping that positions into a comma-separated string.
-        sapply(idx_list, function(x) {
-            paste(sort(unique(id[x])), collapse = ",")
-        })
-    }
-    result <- NULL
-    n <- length(pos)
-    if (n < batch.size)
-        batch.size <- n
-    nbatch <- (n - 1L) %/% batch.size + 1L
-    last_batch_size <- n - (nbatch - 1L) * batch.size
-    if (!quiet)
-        pr("Number of batches: ", nbatch)
-    for (i in 1:nbatch) {
-        if (!quiet)
-            cat(i, "")
-        first <- 1L + (i - 1L) * batch.size
-        last <- if (i == nbatch) n else first + batch.size - 1L
-        x <- pos[seq(first, last)]
-        result <- c(list(fun(x)), result)
-    }
-    if (!quiet)
-        cat("\n\n")
-    v <- unname(do.call(c, rev(result)))
-    stopifnot(length(v) == length(pos))
-    v[is.na(pos)] <- NA
-    v
+match_intervals <- function(point, start, end) {
+    lapply(point, function(x) {
+        if (is.na(x))
+            return(NA)
+        which(x >= start & x <= end)
+    })
 }
 
 #' Extract duplicated rows from data frame.

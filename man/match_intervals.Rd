@@ -2,39 +2,29 @@
 % Please edit documentation in R/miscFun.R
 \name{match_intervals}
 \alias{match_intervals}
-\title{Match positions to intervals}
+\title{Find intervals containing points}
 \usage{
-match_intervals(pos, start, end, id, batch.size = 1000L, quiet = FALSE)
+match_intervals(point, start, end)
 }
 \arguments{
-\item{pos}{Integer vector with positions}
+\item{point}{Points}
 
-\item{start}{Integer vector with interval start positions}
+\item{start}{Lower boundaries of intervals}
 
-\item{end}{Integer vector with interval end positions}
-
-\item{id}{Vector with interval ids}
-
-\item{batch.size}{Number of positions in `pos' that are processed at a time}
-
-\item{quiet}{Report progress if FALSE (default)}
+\item{end}{Upper boundaries of intervals}
 }
 \value{
-A character vector of the same length as `pos' where every
-entry is a comma-separated string containing the ids of all
-intervals the associated position in `pos' falls into.  If a
-position does not fall into any of the intervals, the empty string
-is returned.
+A list of the same length as \code{point} where element
+    \code{i} contains the indexes of closed intervals
+    [\code{start}, \code{end}] containing \code{point[k]}.
+    \code{NA} points result in an \code{NA} vector of indexes.
+    Points that don't belong to any interval result in a length-0
+    vector of indexes.
 }
 \description{
-Match positions to intervals
+Find intervals containing points
 }
-\examples{
-pos   <- c(1L,2L,3L)
-start <- c(0L,1L,4L)
-end   <- c(1L,2L,5L)
-id    <- c(1L,2L,3L)
-match_intervals(pos, start, end, id)
-
+\seealso{
+\code{\link{find_matching_intervals}}
 }
 
