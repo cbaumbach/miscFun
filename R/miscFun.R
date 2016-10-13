@@ -282,8 +282,6 @@ match_intervals <- function(point, start, end) {
 #'     Can be a character vector of column names or a numeric vector
 #'     giving the column indexes.
 #' @param select Columns to include in resulting data frame
-#' @param sep Separator used for row-wise pasting of values in
-#'     \code{cols} columns
 #'
 #' @return A data frame containing all rows of \code{data} that had
 #'     duplicates with respect to the selected columns.
@@ -304,7 +302,7 @@ match_intervals <- function(point, start, end) {
 #' find_duplicates(d, c("x", "z"))
 #'
 #' @export
-find_duplicates <- function(data, columns, select = NULL, sep = "\t") {
+find_duplicates <- function(data, columns, select = NULL) {
     if (is.null(select))
         select <- colnames(data)
     if (nrow(data) == 0L)

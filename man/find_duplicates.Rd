@@ -4,7 +4,7 @@
 \alias{find_duplicates}
 \title{Extract duplicated rows from data frame.}
 \usage{
-find_duplicates(data, columns, select = NULL, sep = "\\t")
+find_duplicates(data, columns, select = NULL)
 }
 \arguments{
 \item{data}{Data frame}
@@ -14,9 +14,6 @@ Can be a character vector of column names or a numeric vector
 giving the column indexes.}
 
 \item{select}{Columns to include in resulting data frame}
-
-\item{sep}{Separator used for row-wise pasting of values in
-\code{cols} columns}
 }
 \value{
 A data frame containing all rows of \code{data} that had
@@ -43,6 +40,6 @@ find_duplicates(d, c("x", "z"))
 
 }
 \seealso{
-\code{\link[base]{duplicated}}
+\code{\link[base]{duplicated}} and \code{\link{is_duplicated_in}}
 }
 
