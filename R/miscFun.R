@@ -112,10 +112,6 @@ flatten_csv <- function(x, sep = ",", fixed = TRUE) {
 #'
 #' @export
 nfields <- function(con, sep = "\t") {
-    if (is.character(file)) {
-        con <- file(con)
-        on.exit(close(con))
-    }
     length(scan(con, what = character(), sep = sep, nlines = 1L, quiet = TRUE))
 }
 
