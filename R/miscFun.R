@@ -307,11 +307,11 @@ find_duplicates <- function(data, columns, select = NULL) {
         select <- colnames(data)
     if (nrow(data) == 0L)
         return(data[, select])
-    if (any(! columns %in% colnames(data)))
+    if (any(columns %not_in% colnames(data)))
         stop("nonexistent variables in COLUMNS")
-    if (any(! select %in% colnames(data)))
+    if (any(select %not_in% colnames(data)))
         stop("nonexistent variables in SELECT")
-    key <- do.call(function(...) paste(..., sep = "\r"), data[columns])
+    key <- Reduce(function(x, y) paste(x, y, sep = "\r"), data[columns])
     data[key %in% key[duplicated(key)], select, drop = FALSE]
 }
 
