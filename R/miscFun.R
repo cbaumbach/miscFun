@@ -151,7 +151,8 @@ colClasses <- function(fmt) {
             stop("unknown letter in format: ", letter))
         if (nchar(x) == 1)
             return(type)
-        rep(type, as.integer(substr(x, 1, nchar(x) - 1)))
+        length <- as.integer(substr(x, 1, nchar(x) - 1))
+        rep_len(type, length)
     }
     groups <- unlist(strsplit(fmt, "(?<=[[:alpha:]])", perl = TRUE), use.names = FALSE)
     unlist(lapply(trimws(groups), translate), use.names = FALSE)
