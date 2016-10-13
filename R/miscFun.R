@@ -438,7 +438,7 @@ one_per_row <- function(data, columns, sep = ",") {
 #'
 #' @export
 one_per_element <- function(x, sep = ",", perl = FALSE) {
-    unname(unlist(strsplit(x, split = sep, fixed = !perl, perl = perl)))
+    unlist(strsplit(x, split = sep, fixed = !perl, perl = perl), use.names = FALSE)
 }
 
 #' Test whether a binary predicate holds for all direct neighbors in a list
