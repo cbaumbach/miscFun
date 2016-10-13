@@ -335,6 +335,20 @@ is_duplicated_in <- function(x) {
     result
 }
 
+#' Opposite of \code{\%in\%}
+#'
+#' @param x Values to be matched
+#' @param table Values to be matched against
+#'
+#' @return Returns the logical negation of \code{\%in\%}.
+#'
+#' @seealso \code{\link[base]{\%in\%}}
+#'
+#' @export
+`%not_in%` <- function(x, table) {
+    Negate(`%in%`)(x, table)
+}
+
 #' Invert mapping
 #'
 #' @description
