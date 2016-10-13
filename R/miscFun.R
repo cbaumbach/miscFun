@@ -466,20 +466,18 @@ one_per_element <- function(x, sep = ",", perl = FALSE) {
 all_neighbors <- function(f, ...) {
     force(f)
     lists <- list(...)
-    if (length(lists) == 1L)
-        x <- lists[[1L]]
-    else
-        x <- do.call(c, lists)
-    # If we get through the call to `Reduce' without an error being
-    # thrown, all direct neighbors in `x', when compared by `f', yield
-    # TRUE, that is, the predicate `f' holds throughout `x' and we
-    # return TRUE.  Otherwise one pair of direct neighbors compared
-    # FALSE, that is, the predicate `f' does not hold throughout all
-    # of `x' and we return FALSE.
+    x <- if (length(lists) == 1) lists[[1]] else do.call(c, lists)
     tryCatch({
-        Reduce(function(x,y) if (f(x,y)) y else stop(), x)
+        Reduce(function(x, y) if (f(x,y)) y else stop(), x)
+        # We got thru the Reduce without throwing an exception.  In
+        # other words, all comparisons of neighboring elements
+        # returned TRUE.  Hence we return TRUE.
         TRUE
-    }, error = function(e) FALSE)
+    }, error = function(e) {
+        # An exception was thrown meaning that a pair of neighboring
+        # elements compared FALSE.  Hence we return FALSE.
+        FALSE
+    })
 }
 
 #' Surround string(s) with double/single quotes
