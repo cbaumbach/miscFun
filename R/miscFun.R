@@ -317,6 +317,26 @@ find_duplicates <- function(data, columns, select = NULL, sep = "\t") {
     data[key %in% key[duplicated(key)], select, drop = FALSE]
 }
 
+#' Duplicated elements
+#'
+#' @param x Vector or list
+#'
+#' @return A logical vector of the same length as \code{x} that is
+#'     TRUE if the corresponding element of \code{x} occurs more than
+#'     once in \code{x}, and otherwise FALSE.  NAs always result in
+#'     FALSE.
+#'
+#' @seealso \code{\link[base]{duplicated}}
+#'
+#' @export
+is_duplicated_in <- function(x) {
+    if (is.null(x))
+        return(logical())
+    result <- x %in% x[duplicated(x)]
+    result[is.na(x)] <- FALSE
+    result
+}
+
 #' Invert mapping
 #'
 #' @description
