@@ -370,9 +370,8 @@ is_duplicated_in <- function(x) {
 #' @export
 invert_map <- function(map) {
     values <- unlist(map, use.names = FALSE)
-    times <- sapply(map, length)
-    names(values) <- rep(names(map), times = times)
-    lapply(split(names(values), values), sort)
+    names(values) <- rep(names(map), times = sapply(map, length))
+    split(names(values), values)
 }
 
 #' One value per row
