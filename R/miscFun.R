@@ -1249,3 +1249,20 @@ make_pairs <- function(x, y = NULL, ordered = TRUE) {
         y = y[as.integer(pairs[, 2L])],
         stringsAsFactors = FALSE)
 }
+
+#' Eval a piece of code supplied in a C-style string format
+#'
+#' @param fmt C-style string format in length-1 character vector
+#' @param \dots values to be passed into \code{fmt}
+#'
+#' @return Returns the result of evaluating the code specified by
+#'     \code{fmt} in the calling environment.
+#'
+#' @examples
+#' x <- 1; y <- 2
+#' evalf("%s + y", "x")
+#'
+#' @export
+evalf <- function(fmt, ...) {
+    eval(parse(text = sprintf(fmt, ...)), envir = parent.frame())
+}
