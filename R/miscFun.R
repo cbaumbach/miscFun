@@ -383,9 +383,9 @@ invert_map <- function(map) {
 #' values, and put them into separate rows.  Eventually there will be
 #' only "one value per row" in the specified column(s).
 #'
-#' @param d Data frame
-#' @param cols Columns of data frame in which to spread multi-value
-#'      entries across multiple rows
+#' @param data Data frame
+#' @param columns Columns of data frame in which to spread multi-value
+#'     entries across multiple rows
 #' @param sep Separator used in multi-value entries
 #'
 #' @return A data frame with the same columns as `d' but where there

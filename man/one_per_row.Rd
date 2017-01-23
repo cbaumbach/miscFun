@@ -7,12 +7,12 @@
 one_per_row(data, columns, sep = ",")
 }
 \arguments{
-\item{sep}{Separator used in multi-value entries}
+\item{data}{Data frame}
 
-\item{d}{Data frame}
-
-\item{cols}{Columns of data frame in which to spread multi-value
+\item{columns}{Columns of data frame in which to spread multi-value
 entries across multiple rows}
+
+\item{sep}{Separator used in multi-value entries}
 }
 \value{
 A data frame with the same columns as `d' but where there
